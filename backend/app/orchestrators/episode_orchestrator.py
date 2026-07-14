@@ -8,7 +8,7 @@ from backend.app.agents.lesson_agent import LessonAgent
 from backend.app.agents.story_agent import StoryAgent
 from backend.app.agents.scene_agent import SceneAgent
 from backend.app.schemas.episode_context import EpisodeContext
-
+from backend.app.characters.character_service import CharacterService
 
 class EpisodeOrchestrator:
     """
@@ -32,6 +32,7 @@ class EpisodeOrchestrator:
         context = EpisodeContext(
             topic=topic,
             age_group=age_group,
+            characters=CharacterService.list_characters(),
         )
 
         context = self.lesson_agent.generate(context)
