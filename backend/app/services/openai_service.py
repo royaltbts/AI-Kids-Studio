@@ -1,5 +1,7 @@
 """
 OpenAI Service
+
+Handles communication with the OpenAI API.
 """
 
 from openai import OpenAI
@@ -9,6 +11,9 @@ from backend.app.services.prompt_service import PromptService
 
 
 class OpenAIService:
+    """
+    Service responsible for communicating with OpenAI.
+    """
 
     def __init__(self):
         self.client = OpenAI(
@@ -20,10 +25,13 @@ class OpenAIService:
         topic: str,
         age_group: str,
     ) -> str:
+        """
+        Generate a story using OpenAI.
+        """
 
         prompt = PromptService.build_story_prompt(
-            topic,
-            age_group,
+            topic=topic,
+            age_group=age_group,
         )
 
         response = self.client.responses.create(
@@ -32,6 +40,3 @@ class OpenAIService:
         )
 
         return response.output_text
-Responsible only for communicating with OpenAI.
-
-"""

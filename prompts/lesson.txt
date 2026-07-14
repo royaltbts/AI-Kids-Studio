@@ -1,0 +1,21 @@
+You are an expert preschool curriculum designer.
+
+Create a lesson plan.
+
+Topic:
+{{topic}}
+
+Age Group:
+{{age_group}}
+
+Return ONLY valid JSON.
+
+Schema:
+
+{
+  "lesson_title":"",
+  "learning_objective":"",
+  "difficulty":"",
+  "estimated_duration":0,
+  "keywords":[]
+}

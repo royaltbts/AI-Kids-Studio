@@ -1,7 +1,8 @@
 """
 Prompt Service
 
-Loads prompt templates and replaces variables.
+Loads prompt templates from the prompts directory
+and replaces template variables.
 """
 
 from pathlib import Path
@@ -14,7 +15,6 @@ class PromptService:
 
     @classmethod
     def load_prompt(cls, filename: str) -> str:
-
         prompt_path = cls.PROMPTS_DIR / filename
 
         if not prompt_path.exists():
@@ -32,6 +32,20 @@ class PromptService:
     ) -> str:
 
         prompt = cls.load_prompt("story.txt")
+
+        prompt = prompt.replace("{{topic}}", topic)
+        prompt = prompt.replace("{{age_group}}", age_group)
+
+        return prompt
+
+    @classmethod
+    def build_lesson_prompt(
+        cls,
+        topic: str,
+        age_group: str,
+    ) -> str:
+
+        prompt = cls.load_prompt("lesson.txt")
 
         prompt = prompt.replace("{{topic}}", topic)
         prompt = prompt.replace("{{age_group}}", age_group)
