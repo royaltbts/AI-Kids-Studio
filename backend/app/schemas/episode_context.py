@@ -12,6 +12,10 @@ from backend.app.characters.models import Character
 from backend.app.schemas.lesson import LessonResponse
 from backend.app.schemas.story_plan import StoryPlan
 from backend.app.schemas.scene_plan import ScenePlan
+from backend.app.schemas.episode_assets import EpisodeAssets
+from pydantic import BaseModel, Field
+
+from backend.app.schemas.image_prompt import ImagePrompt
 
 
 class EpisodeContext(BaseModel):
@@ -30,3 +34,5 @@ class EpisodeContext(BaseModel):
     story: Optional[StoryPlan] = None
 
     scene_plan: Optional[ScenePlan] = None
+    assets: EpisodeAssets | None = None
+    image_prompts: list[ImagePrompt] = Field(default_factory=list)

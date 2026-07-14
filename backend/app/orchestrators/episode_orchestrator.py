@@ -9,6 +9,8 @@ from backend.app.agents.story_agent import StoryAgent
 from backend.app.agents.scene_agent import SceneAgent
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.characters.character_service import CharacterService
+from backend.app.agents.image_prompt_agent import ImagePromptAgent
+
 
 class EpisodeOrchestrator:
     """
@@ -19,6 +21,7 @@ class EpisodeOrchestrator:
         self.lesson_agent = LessonAgent()
         self.story_agent = StoryAgent()
         self.scene_agent = SceneAgent()
+        self.image_prompt_agent = ImagePromptAgent()
 
     def generate_episode(
         self,
@@ -40,5 +43,7 @@ class EpisodeOrchestrator:
         context = self.story_agent.generate(context)
 
         context = self.scene_agent.generate(context)
+
+        context = self.image_prompt_agent.generate(context)
 
         return context.model_dump()

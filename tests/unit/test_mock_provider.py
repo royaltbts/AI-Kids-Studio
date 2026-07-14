@@ -11,42 +11,37 @@ def test_generate_lesson():
 
     provider = MockProvider()
 
-    response = provider.generate(
-        "Create a lesson plan"
-    )
+    response = provider.generate("lesson plan")
 
     lesson = json.loads(response)
 
-    assert "lesson_title" in lesson
-    assert "learning_objective" in lesson
+    assert lesson["lesson_title"] == "ABC Adventure"
 
 
 def test_generate_story():
 
     provider = MockProvider()
 
-    response = provider.generate(
-        "story outline"
-    )
+    response = provider.generate("story outline")
 
     story = json.loads(response)
 
-    assert "title" in story
-    assert "introduction" in story
+    assert story["title"] == "ABC Adventure"
+    assert len(story["scenes"]) == 4
 
 
 def test_generate_scene():
 
     provider = MockProvider()
 
-    response = provider.generate(
-        "storyboard scenes"
-    )
+    response = provider.generate("storyboard scenes")
 
-    scenes = json.loads(response)
+    scene_plan = json.loads(response)
 
-    assert isinstance(scenes, list)
+    assert scene_plan["scene_count"] == 4
 
-    assert len(scenes) > 0
+    assert scene_plan["total_duration"] == 120
 
-    assert "scene_number" in scenes[0]
+    assert len(scene_plan["scenes"]) == 4
+
+    assert scene_plan["scenes"][0]["scene_number"] == 1

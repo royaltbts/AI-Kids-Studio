@@ -1,0 +1,50 @@
+You are an expert children's animation concept artist.
+
+Your task is to convert a storyboard scene into a detailed image generation prompt.
+
+Topic:
+{{topic}}
+
+Age Group:
+{{age_group}}
+
+Scene Number:
+{{scene_number}}
+
+Scene Title:
+{{scene_title}}
+
+Narration:
+{{narration}}
+
+Visual Description:
+{{visual_description}}
+
+Main Characters:
+{{characters}}
+
+Requirements:
+
+- Pixar-quality 3D animation
+- Bright colorful lighting
+- Friendly preschool atmosphere
+- Consistent character appearance
+- Educational environment
+- High detail
+- Cinematic composition
+- Soft shadows
+- Vibrant colors
+- 16:9 composition
+
+Return ONLY valid JSON.
+
+Schema:
+
+{
+  "scene_number": 1,
+  "title": "",
+  "prompt": "",
+  "negative_prompt": "",
+  "style": "Pixar 3D",
+  "aspect_ratio": "16:9"
+}

@@ -24,9 +24,7 @@ class PromptService:
         prompt_path = cls.PROMPTS_DIR / filename
 
         if not prompt_path.exists():
-            raise FileNotFoundError(
-                f"Prompt file not found: {prompt_path}"
-            )
+            raise FileNotFoundError(f"Prompt file not found: {prompt_path}")
 
         return prompt_path.read_text(encoding="utf-8")
 
@@ -56,6 +54,9 @@ class PromptService:
         topic: str,
         age_group: str,
     ) -> str:
+        """
+        Build the lesson prompt.
+        """
 
         return cls.render(
             "lesson.txt",
@@ -69,6 +70,9 @@ class PromptService:
         topic: str,
         age_group: str,
     ) -> str:
+        """
+        Build the story prompt.
+        """
 
         return cls.render(
             "story.txt",
@@ -84,6 +88,9 @@ class PromptService:
         lesson_title: str,
         learning_objective: str,
     ) -> str:
+        """
+        Build the story agent prompt.
+        """
 
         return cls.render(
             "story_agent.txt",
@@ -101,6 +108,9 @@ class PromptService:
         story_title: str,
         story_intro: str,
     ) -> str:
+        """
+        Build the scene agent prompt.
+        """
 
         return cls.render(
             "scene_agent.txt",
@@ -108,4 +118,30 @@ class PromptService:
             age_group=age_group,
             story_title=story_title,
             story_intro=story_intro,
+        )
+
+    @classmethod
+    def build_image_prompt(
+        cls,
+        topic: str,
+        age_group: str,
+        scene_number: int,
+        scene_title: str,
+        narration: str,
+        visual_description: str,
+        characters: str,
+    ) -> str:
+        """
+        Build the image prompt.
+        """
+
+        return cls.render(
+            "image_prompt.txt",
+            topic=topic,
+            age_group=age_group,
+            scene_number=scene_number,
+            scene_title=scene_title,
+            narration=narration,
+            visual_description=visual_description,
+            characters=characters,
         )
