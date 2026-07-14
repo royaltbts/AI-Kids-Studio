@@ -1,4 +1,9 @@
+
+import json
+
 from backend.app.providers.provider_factory import ProviderFactory
+from backend.app.schemas.lesson import LessonResponse
+from backend.app.services.prompt_service import PromptService
 
 
 class LessonAgent:
@@ -11,9 +16,15 @@ class LessonAgent:
         self,
         topic: str,
         age_group: str,
-    ):
+    ) -> LessonResponse:
 
-        return self.provider.generate_lesson(
+        prompt = PromptService.build_lesson_prompt(
             topic,
             age_group,
         )
+
+        response = self.provider.generate(prompt)
+
+        data = json.loads(response)
+
+        return LessonResponse(**data)

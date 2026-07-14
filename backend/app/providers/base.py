@@ -4,17 +4,12 @@ from abc import ABC, abstractmethod
 class AIProvider(ABC):
 
     @abstractmethod
-    def generate_lesson(
-        self,
-        topic: str,
-        age_group: str,
-    ):
+    def generate(self, prompt: str) -> str:
+        """
+        Generate text from a prompt.
+        """
         pass
 
     @abstractmethod
-    def generate_story(
-        self,
-        topic: str,
-        age_group: str,
-    ):
+    def provider_name(self) -> str:
         pass

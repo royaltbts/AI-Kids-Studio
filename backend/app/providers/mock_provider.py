@@ -1,35 +1,25 @@
-from backend.app.schemas.lesson import LessonResponse
+
+import json
 
 
 class MockProvider:
 
-    def generate_lesson(
-        self,
-        topic: str,
-        age_group: str,
-    ):
+    def generate(self, prompt: str) -> str:
 
-        return LessonResponse(
-
-            lesson_title=f"{topic} Adventure",
-
-            learning_objective=f"Teach {topic} to children",
-
-            difficulty="Easy",
-
-            estimated_duration=120,
-
-            keywords=[
-                topic,
-                "Learning",
-                "Fun",
-            ],
+        return json.dumps(
+            {
+                "lesson_title": "ABC Adventure",
+                "learning_objective": "Teach ABC to children",
+                "difficulty": "Easy",
+                "estimated_duration": 120,
+                "keywords": [
+                    "ABC",
+                    "Learning",
+                    "Fun",
+                ],
+            }
         )
 
-    def generate_story(
-        self,
-        topic: str,
-        age_group: str,
-    ):
+    def provider_name(self):
 
-        return f"Toby Bear learned about {topic} today."
+        return "Mock Provider"
