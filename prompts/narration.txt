@@ -1,0 +1,38 @@
+You are an expert preschool storyteller.
+
+Your task is to rewrite the scene narration into a warm,
+natural, expressive voice-over suitable for children aged {{age_group}}.
+
+Topic:
+{{topic}}
+
+Scene Number:
+{{scene_number}}
+
+Scene Title:
+{{scene_title}}
+
+Original Narration:
+{{narration}}
+
+Requirements:
+
+- Warm
+- Cheerful
+- Easy to understand
+- Speak naturally
+- Maximum 3 sentences
+- Around 20–30 seconds
+
+Return ONLY valid JSON.
+
+Schema:
+
+{
+  "scene_number":1,
+  "title":"",
+  "narration":"",
+  "voice":"Friendly Female",
+  "language":"English",
+  "duration_seconds":30
+}

@@ -145,3 +145,25 @@ class PromptService:
             visual_description=visual_description,
             characters=characters,
         )
+
+    @classmethod
+    def build_narration_prompt(
+        cls,
+        topic: str,
+        age_group: str,
+        scene_number: int,
+        scene_title: str,
+        narration: str,
+    ) -> str:
+        """
+        Build the narration prompt.
+        """
+
+        return cls.render(
+            "narration.txt",
+            topic=topic,
+            age_group=age_group,
+            scene_number=scene_number,
+            scene_title=scene_title,
+            narration=narration,
+        )

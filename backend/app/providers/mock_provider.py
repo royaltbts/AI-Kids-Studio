@@ -74,7 +74,7 @@ class MockProvider(AIProvider):
             return json.dumps(
                 {
                     "lesson_title": "ABC Adventure",
-                    "learning_objective": ("Teach children to recognize the letter A."),
+                    "learning_objective": "Teach children to recognize the letter A.",
                     "difficulty": "Easy",
                     "estimated_duration": 120,
                     "keywords": [
@@ -166,10 +166,6 @@ class MockProvider(AIProvider):
         # ==========================================================
         # Image Prompt Agent
         # ==========================================================
-        # ==========================================================
-        # Image Prompt Agent
-        # ==========================================================
-
         if (
             "children's animation concept artist" in prompt
             or "image generation prompt" in prompt
@@ -196,6 +192,33 @@ class MockProvider(AIProvider):
                     "negative_prompt": ("blurry, low quality, dark, scary, violence"),
                     "style": "Pixar 3D",
                     "aspect_ratio": "16:9",
+                }
+            )
+
+        # ==========================================================
+        # Narration Agent
+        # ==========================================================
+        if "expert preschool storyteller" in prompt or "voice-over" in prompt:
+
+            scene_number = self._extract_scene_number(prompt)
+
+            title = self._extract_value(
+                prompt,
+                "Scene Title",
+                "Scene",
+            )
+
+            return json.dumps(
+                {
+                    "scene_number": scene_number,
+                    "title": title,
+                    "narration": (
+                        f"Welcome to {title}! "
+                        "Let's learn together with Toby Bear and friends."
+                    ),
+                    "voice": "Friendly Female",
+                    "language": "English",
+                    "duration_seconds": 30,
                 }
             )
 
