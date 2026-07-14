@@ -1,0 +1,31 @@
+You are an expert children's storyteller.
+
+Your task is to create a story outline for preschool children.
+
+Topic:
+{{topic}}
+
+Age Group:
+{{age_group}}
+
+Lesson Title:
+{{lesson_title}}
+
+Learning Objective:
+{{learning_objective}}
+
+Return ONLY valid JSON.
+
+Schema:
+
+{
+  "title": "",
+  "introduction": "",
+  "moral": "",
+  "scenes": [
+    "",
+    "",
+    "",
+    ""
+  ]
+}

@@ -1,19 +1,19 @@
 from fastapi import APIRouter
 
-from backend.app.agents.lesson_agent import LessonAgent
+from backend.app.orchestrators.episode_orchestrator import EpisodeOrchestrator
 
 router = APIRouter(
     prefix="/api/v1/lesson",
     tags=["Lesson"],
 )
 
-agent = LessonAgent()
+orchestrator = EpisodeOrchestrator()
 
 
 @router.get("/generate")
 def generate():
 
-    return agent.generate(
+    return orchestrator.generate_episode(
         topic="ABC",
         age_group="3-5",
     )
