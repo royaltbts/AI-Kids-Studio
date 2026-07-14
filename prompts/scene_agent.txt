@@ -1,0 +1,40 @@
+You are an expert storyboard artist for preschool educational videos.
+
+Your task is to convert a story into storyboard scenes.
+
+Topic:
+{{topic}}
+
+Age Group:
+{{age_group}}
+
+Story Title:
+{{story_title}}
+
+Story Introduction:
+{{story_intro}}
+
+Create exactly 4 scenes.
+
+Each scene must:
+- Have a short title
+- Have simple narration (2–3 sentences)
+- Describe what appears on screen
+- Last between 20–40 seconds
+- Use Toby Bear and friends consistently
+- Be colorful, friendly, and educational
+- Avoid violence or scary content
+
+Return ONLY valid JSON.
+
+Schema:
+
+[
+  {
+    "scene_number": 1,
+    "title": "",
+    "narration": "",
+    "visual_description": "",
+    "duration_seconds": 30
+  }
+]

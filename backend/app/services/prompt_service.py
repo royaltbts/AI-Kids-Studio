@@ -1,8 +1,7 @@
 """
 Prompt Service
 
-Loads prompt templates from the prompts directory
-and replaces template variables.
+Loads and renders prompt templates.
 """
 
 from pathlib import Path
@@ -10,7 +9,7 @@ from pathlib import Path
 
 class PromptService:
     """
-    Loads prompt templates and injects variables.
+    Generic prompt rendering service.
     """
 
     BASE_DIR = Path(__file__).resolve().parents[3]
@@ -19,7 +18,7 @@ class PromptService:
     @classmethod
     def load_prompt(cls, filename: str) -> str:
         """
-        Load a prompt template from the prompts directory.
+        Load a prompt template from disk.
         """
 
         prompt_path = cls.PROMPTS_DIR / filename
@@ -32,28 +31,37 @@ class PromptService:
         return prompt_path.read_text(encoding="utf-8")
 
     @classmethod
+    def render(
+        cls,
+        filename: str,
+        **kwargs,
+    ) -> str:
+        """
+        Render a prompt template by replacing placeholders.
+        """
+
+        prompt = cls.load_prompt(filename)
+
+        for key, value in kwargs.items():
+            prompt = prompt.replace(
+                f"{{{{{key}}}}}",
+                str(value),
+            )
+
+        return prompt
+
+    @classmethod
     def build_lesson_prompt(
         cls,
         topic: str,
         age_group: str,
     ) -> str:
-        """
-        Build the lesson generation prompt.
-        """
 
-        prompt = cls.load_prompt("lesson.txt")
-
-        prompt = prompt.replace(
-            "{{topic}}",
-            topic,
+        return cls.render(
+            "lesson.txt",
+            topic=topic,
+            age_group=age_group,
         )
-
-        prompt = prompt.replace(
-            "{{age_group}}",
-            age_group,
-        )
-
-        return prompt
 
     @classmethod
     def build_story_prompt(
@@ -61,23 +69,12 @@ class PromptService:
         topic: str,
         age_group: str,
     ) -> str:
-        """
-        Build the story generation prompt.
-        """
 
-        prompt = cls.load_prompt("story.txt")
-
-        prompt = prompt.replace(
-            "{{topic}}",
-            topic,
+        return cls.render(
+            "story.txt",
+            topic=topic,
+            age_group=age_group,
         )
-
-        prompt = prompt.replace(
-            "{{age_group}}",
-            age_group,
-        )
-
-        return prompt
 
     @classmethod
     def build_story_agent_prompt(
@@ -87,30 +84,28 @@ class PromptService:
         lesson_title: str,
         learning_objective: str,
     ) -> str:
-        """
-        Build the structured story-plan prompt.
-        """
 
-        prompt = cls.load_prompt("story_agent.txt")
-
-        prompt = prompt.replace(
-            "{{topic}}",
-            topic,
+        return cls.render(
+            "story_agent.txt",
+            topic=topic,
+            age_group=age_group,
+            lesson_title=lesson_title,
+            learning_objective=learning_objective,
         )
 
-        prompt = prompt.replace(
-            "{{age_group}}",
-            age_group,
-        )
+    @classmethod
+    def build_scene_agent_prompt(
+        cls,
+        topic: str,
+        age_group: str,
+        story_title: str,
+        story_intro: str,
+    ) -> str:
 
-        prompt = prompt.replace(
-            "{{lesson_title}}",
-            lesson_title,
+        return cls.render(
+            "scene_agent.txt",
+            topic=topic,
+            age_group=age_group,
+            story_title=story_title,
+            story_intro=story_intro,
         )
-
-        prompt = prompt.replace(
-            "{{learning_objective}}",
-            learning_objective,
-        )
-
-        return prompt

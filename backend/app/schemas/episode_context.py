@@ -10,15 +10,12 @@ from pydantic import BaseModel
 
 from backend.app.schemas.lesson import LessonResponse
 from backend.app.schemas.story_plan import StoryPlan
+from backend.app.schemas.scene_plan import ScenePlan
 
 
 class EpisodeContext(BaseModel):
     """
-    Shared episode state.
-
-    Every agent reads from this object,
-    updates it,
-    and returns it.
+    Shared state for the complete episode.
     """
 
     topic: str
@@ -28,3 +25,5 @@ class EpisodeContext(BaseModel):
     lesson: Optional[LessonResponse] = None
 
     story: Optional[StoryPlan] = None
+
+    scene_plan: Optional[ScenePlan] = None
