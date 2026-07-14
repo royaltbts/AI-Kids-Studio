@@ -1,12 +1,11 @@
 """
 OpenAI Service
-
-Responsible only for communicating with OpenAI.
 """
 
 from openai import OpenAI
 
 from backend.app.core.config import settings
+from backend.app.services.prompt_service import PromptService
 
 
 class OpenAIService:
@@ -22,34 +21,10 @@ class OpenAIService:
         age_group: str,
     ) -> str:
 
-        prompt = f"""
-You are an expert children's educational storyteller.
-
-Write an ORIGINAL story.
-
-Topic:
-{topic}
-
-Age Group:
-{age_group}
-
-Characters:
-- Toby Bear (Main Character)
-- Mimi Rabbit
-- Leo Lion
-- Ellie Elephant
-
-Rules:
-- Simple English
-- Happy tone
-- Educational
-- 250-350 words
-- End with a positive moral
-- No violence
-- No scary content
-
-Return ONLY the story.
-"""
+        prompt = PromptService.build_story_prompt(
+            topic,
+            age_group,
+        )
 
         response = self.client.responses.create(
             model="gpt-5.5",
@@ -57,3 +32,6 @@ Return ONLY the story.
         )
 
         return response.output_text
+Responsible only for communicating with OpenAI.
+
+"""

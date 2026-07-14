@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from backend.app.api.routes.system import router as system_router
 from backend.app.api.routes.health import router as health_router
 from backend.app.api.routes.story import router as story_router
-
+from backend.app.api.routes.prompt import router as prompt_router
 app = FastAPI(
     title="TinyVerse Kids Studio",
     version="1.0.0",
@@ -12,7 +12,7 @@ app = FastAPI(
 app.include_router(health_router)
 app.include_router(story_router)
 app.include_router(system_router)
-
+app.include_router(prompt_router)
 @app.get("/")
 def root():
     return {
