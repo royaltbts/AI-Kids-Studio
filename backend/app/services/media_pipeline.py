@@ -7,6 +7,7 @@ Coordinates media rendering for an episode.
 from backend.app.renderers.renderer_factory import RendererFactory
 from backend.app.schemas.episode_assets import EpisodeAssets
 from backend.app.schemas.rendered_audio import RenderedAudio
+from backend.app.schemas.rendered_episode import RenderedEpisode
 from backend.app.schemas.rendered_image import RenderedImage
 
 
@@ -23,7 +24,7 @@ class MediaPipeline:
     def render(
         self,
         assets: EpisodeAssets,
-    ) -> tuple[list[RenderedImage], list[RenderedAudio]]:
+    ) -> RenderedEpisode:
         """
         Render all images and narration.
         """
@@ -45,7 +46,8 @@ class MediaPipeline:
                 )
             )
 
-        return (
-            rendered_images,
-            rendered_audio,
-        )
+        return RenderedEpisode(
+    images=rendered_images,
+    audio=rendered_audio,
+    total_duration=assets.total_duration,
+)

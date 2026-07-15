@@ -13,34 +13,78 @@ from backend.app.services.media_pipeline import MediaPipeline
 
 
 def test_media_pipeline():
+    """
+    Verify the complete media rendering pipeline.
+    """
 
     context = EpisodeContext(
         topic="ABC",
         age_group="3-5",
     )
 
+    # Generate episode content
     context = LessonAgent().generate(context)
     context = StoryAgent().generate(context)
     context = SceneAgent().generate(context)
     context = ImagePromptAgent().generate(context)
     context = NarrationAgent().generate(context)
 
+    # Assemble renderable assets
     assets = AssetAssembler.build(context)
 
+    # Render media
     pipeline = MediaPipeline()
+    rendered = pipeline.render(assets)
 
-    images, audio = pipeline.render(
-        assets,
+    # ----------------------------------------------------------
+    # Episode level validation
+    # ----------------------------------------------------------
+
+    assert rendered.total_duration == 120
+    assert rendered.status == "rendered"
+
+    # ----------------------------------------------------------
+    # Images
+    # ----------------------------------------------------------
+
+    assert len(rendered.images) == 4
+
+    assert rendered.images[0].scene_number == 1
+    assert rendered.images[1].scene_number == 2
+    assert rendered.images[2].scene_number == 3
+    assert rendered.images[3].scene_number == 4
+
+    assert rendered.images[0].image_path.endswith(
+        "scene_001.png"
     )
 
-    assert len(images) == 4
+    assert rendered.images[3].image_path.endswith(
+        "scene_004.png"
+    )
 
-    assert len(audio) == 4
+    assert rendered.images[0].width == 1920
+    assert rendered.images[0].height == 1080
+    assert rendered.images[0].status == "rendered"
 
-    assert images[0].scene_number == 1
+    # ----------------------------------------------------------
+    # Audio
+    # ----------------------------------------------------------
 
-    assert audio[0].scene_number == 1
+    assert len(rendered.audio) == 4
 
-    assert images[3].scene_number == 4
+    assert rendered.audio[0].scene_number == 1
+    assert rendered.audio[1].scene_number == 2
+    assert rendered.audio[2].scene_number == 3
+    assert rendered.audio[3].scene_number == 4
 
-    assert audio[3].scene_number == 4
+    assert rendered.audio[0].audio_path.endswith(
+        "scene_001.mp3"
+    )
+
+    assert rendered.audio[3].audio_path.endswith(
+        "scene_004.mp3"
+    )
+
+    assert rendered.audio[0].voice == "Friendly Female"
+    assert rendered.audio[0].status == "rendered"
+    assert rendered.audio[0].format == "mp3"
