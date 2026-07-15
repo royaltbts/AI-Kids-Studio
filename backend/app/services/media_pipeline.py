@@ -4,12 +4,15 @@ Media Pipeline
 Coordinates media rendering for an episode.
 """
 
+import logging
 from backend.app.renderers.renderer_factory import RendererFactory
 from backend.app.schemas.episode_assets import EpisodeAssets
 from backend.app.schemas.rendered_audio import RenderedAudio
 from backend.app.schemas.rendered_episode import RenderedEpisode
 from backend.app.schemas.rendered_image import RenderedImage
 from backend.app.schemas.rendered_music import RenderedMusic
+
+logger = logging.getLogger(__name__)
 
 
 class MediaPipeline:
@@ -62,6 +65,14 @@ class MediaPipeline:
             title="TinyVerse Background Music",
             duration_seconds=assets.total_duration,
         )
+
+        logger.info("Rendering media assets.")
+
+        logger.info(
+    "Rendered %d images and %d audio tracks.",
+    len(rendered_images),
+    len(rendered_audio),
+)
 
         # ----------------------------------------------------------
         # Build Episode

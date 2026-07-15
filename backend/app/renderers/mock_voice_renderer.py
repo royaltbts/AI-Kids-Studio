@@ -7,9 +7,10 @@ Returns deterministic rendered audio objects for testing.
 from backend.app.renderers.voice_renderer import VoiceRenderer
 from backend.app.schemas.narration import Narration
 from backend.app.schemas.rendered_audio import RenderedAudio
+from backend.app.renderers.base_renderer import BaseRenderer
 
 
-class MockVoiceRenderer(VoiceRenderer):
+class MockVoiceRenderer(BaseRenderer):
     """
     Mock implementation of a voice renderer.
     """
@@ -28,10 +29,7 @@ class MockVoiceRenderer(VoiceRenderer):
             narration=narration.narration,
             voice=narration.voice,
             duration_seconds=narration.duration_seconds,
-            audio_path=(
-                f"output/audio/"
-                f"scene_{narration.scene_number:03d}.mp3"
-            ),
+            audio_path=(f"output/audio/" f"scene_{narration.scene_number:03d}.mp3"),
             sample_rate=24000,
             channels=2,
             format="mp3",

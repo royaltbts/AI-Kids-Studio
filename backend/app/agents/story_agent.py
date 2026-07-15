@@ -8,6 +8,7 @@ from backend.app.agents.base_agent import BaseAgent
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.schemas.story_plan import StoryPlan
 from backend.app.services.prompt_service import PromptService
+from backend.app.core.logger import logger
 
 
 class StoryAgent(BaseAgent):
@@ -26,6 +27,10 @@ class StoryAgent(BaseAgent):
         Generate the story and store it in the context.
         """
 
+        assert (
+            context.lesson is not None
+        ), "Lesson context is required for story generation"
+
         prompt = PromptService.build_story_agent_prompt(
             topic=context.topic,
             age_group=context.age_group,
@@ -37,5 +42,10 @@ class StoryAgent(BaseAgent):
             prompt=prompt,
             schema=StoryPlan,
         )
+        logger.info(
+            "Generating story for '%s'",
+            context.topic,
+        )
+        logger.info("Story generated successfully.")
 
         return context

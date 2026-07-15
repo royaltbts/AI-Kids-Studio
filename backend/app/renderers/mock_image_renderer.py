@@ -1,31 +1,38 @@
 """
 Mock Image Renderer
 
-Generates deterministic rendered images for testing.
+Returns deterministic rendered images for testing.
 """
 
-from backend.app.renderers.image_renderer import ImageRenderer
+from backend.app.core.settings import settings
+from backend.app.renderers.base_renderer import BaseRenderer
 from backend.app.schemas.image_prompt import ImagePrompt
 from backend.app.schemas.rendered_image import RenderedImage
 
 
-class MockImageRenderer(ImageRenderer):
+class MockImageRenderer(BaseRenderer):
     """
-    Mock renderer used for development.
+    Mock implementation of the image renderer.
     """
 
     def render(
         self,
-        image_prompt: ImagePrompt,
+        prompt: ImagePrompt,
     ) -> RenderedImage:
         """
-        Return deterministic image metadata.
+        Render a deterministic image.
         """
 
+        image_path = str(
+            settings.OUTPUT_DIR
+            / settings.IMAGE_DIR
+            / f"scene_{prompt.scene_number:03d}.png"
+        )
+
         return RenderedImage(
-            scene_number=image_prompt.scene_number,
-            image_path=f"renders/scene_{image_prompt.scene_number:03d}.png",
-            width=1920,
-            height=1080,
+            scene_number=prompt.scene_number,
+            image_path=image_path,
+            width=settings.DEFAULT_IMAGE_WIDTH,
+            height=settings.DEFAULT_IMAGE_HEIGHT,
             status="rendered",
         )

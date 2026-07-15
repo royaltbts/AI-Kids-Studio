@@ -8,6 +8,10 @@ from backend.app.agents.base_agent import BaseAgent
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.schemas.narration import Narration
 from backend.app.services.prompt_service import PromptService
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class NarrationAgent(BaseAgent):
@@ -28,6 +32,11 @@ class NarrationAgent(BaseAgent):
 
         narrations: list[Narration] = []
 
+        # If there's no scene_plan or scenes, nothing to generate.
+        if not context.scene_plan or not getattr(context.scene_plan, "scenes", None):
+            context.narrations = narrations
+            return context
+
         for scene in context.scene_plan.scenes:
 
             prompt = PromptService.build_narration_prompt(
@@ -46,5 +55,11 @@ class NarrationAgent(BaseAgent):
             narrations.append(narration)
 
         context.narrations = narrations
+
+        logger.info("Generating narrations.")
+        logger.info(
+    "Generated %d narrations.",
+    len(context.narrations),
+)
 
         return context

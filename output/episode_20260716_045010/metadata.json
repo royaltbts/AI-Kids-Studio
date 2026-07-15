@@ -1,0 +1,10 @@
+{
+    "episode_id": "episode_001",
+    "topic": "ABC",
+    "age_group": "3-5",
+    "created_at": "2024-01-01T00:00:00",
+    "duration_seconds": 120,
+    "video_path": "",
+    "thumbnail_path": "",
+    "status": "completed"
+}

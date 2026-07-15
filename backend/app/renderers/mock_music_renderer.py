@@ -6,9 +6,10 @@ Returns deterministic background music.
 
 from backend.app.renderers.music_renderer import MusicRenderer
 from backend.app.schemas.rendered_music import RenderedMusic
+from backend.app.renderers.base_renderer import BaseRenderer
 
 
-class MockMusicRenderer(MusicRenderer):
+class MockMusicRenderer(BaseRenderer):
     """
     Mock implementation of a music renderer.
     """

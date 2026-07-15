@@ -4,10 +4,14 @@ Scene Agent
 Generates storyboard scenes for a TinyVerse episode.
 """
 
+import logging
+
 from backend.app.agents.base_agent import BaseAgent
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.schemas.scene_plan import ScenePlan
 from backend.app.services.prompt_service import PromptService
+
+logger = logging.getLogger(__name__)
 
 
 class SceneAgent(BaseAgent):
@@ -29,13 +33,15 @@ class SceneAgent(BaseAgent):
         prompt = PromptService.build_scene_agent_prompt(
             topic=context.topic,
             age_group=context.age_group,
-            story_title=context.story.title,
-            story_intro=context.story.introduction,
+            story_title=(context.story.title if context.story and context.story.title is not None else ""),
+            story_intro=(context.story.introduction if context.story and context.story.introduction is not None else ""),
         )
 
         context.scene_plan = self.generate_json(
             prompt=prompt,
             schema=ScenePlan,
         )
+        logger.info("Generating scene plan.")
+        logger.info("Generated %d scenes.", len(context.scene_plan.scenes))
 
         return context
