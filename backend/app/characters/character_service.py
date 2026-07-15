@@ -20,9 +20,7 @@ class CharacterService:
         """
 
         if character_id not in CHARACTERS:
-            raise ValueError(
-                f"Unknown character: {character_id}"
-            )
+            raise ValueError(f"Unknown character: {character_id}")
 
         return CHARACTERS[character_id]
 

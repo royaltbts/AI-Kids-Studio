@@ -4,6 +4,7 @@ Mock Provider
 Returns deterministic responses for development and unit testing.
 """
 
+from abc import abstractmethod
 import json
 import re
 
@@ -60,6 +61,7 @@ class MockProvider(AIProvider):
     def provider_name(self) -> str:
         return "mock"
 
+    @abstractmethod
     def generate(self, prompt: str) -> str:
         """
         Generate deterministic responses for testing.
@@ -142,9 +144,11 @@ class MockProvider(AIProvider):
                         {
                             "scene_number": 3,
                             "title": "Learning Together",
-                            "narration": (
+                            "narration": ( 
+
                                 "Mimi Rabbit and Leo Lion help Toby practice the alphabet."
                             ),
+                            
                             "visual_description": (
                                 "Friends learning with alphabet cards."
                             ),

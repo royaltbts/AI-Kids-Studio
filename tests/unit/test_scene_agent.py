@@ -3,8 +3,8 @@ Unit tests for SceneAgent.
 """
 
 from backend.app.agents.lesson_agent import LessonAgent
-from backend.app.agents.story_agent import StoryAgent
 from backend.app.agents.scene_agent import SceneAgent
+from backend.app.agents.story_agent import StoryAgent
 from backend.app.schemas.episode_context import EpisodeContext
 
 

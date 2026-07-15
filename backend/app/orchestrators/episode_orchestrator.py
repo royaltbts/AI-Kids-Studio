@@ -4,13 +4,13 @@ Episode Orchestrator
 Coordinates the complete TinyVerse episode generation workflow.
 """
 
-from backend.app.agents.lesson_agent import LessonAgent
-from backend.app.agents.story_agent import StoryAgent
-from backend.app.agents.scene_agent import SceneAgent
-from backend.app.schemas.episode_context import EpisodeContext
-from backend.app.characters.character_service import CharacterService
 from backend.app.agents.image_prompt_agent import ImagePromptAgent
+from backend.app.agents.lesson_agent import LessonAgent
 from backend.app.agents.narration_agent import NarrationAgent
+from backend.app.agents.scene_agent import SceneAgent
+from backend.app.agents.story_agent import StoryAgent
+from backend.app.characters.character_service import CharacterService
+from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.services.asset_assembler import AssetAssembler
 
 

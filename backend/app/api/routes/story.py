@@ -17,7 +17,6 @@ from backend.app.schemas.story import (
     StoryRequest,
     StoryResponse,
 )
-
 from backend.app.services.story_service import StoryService
 
 router = APIRouter(

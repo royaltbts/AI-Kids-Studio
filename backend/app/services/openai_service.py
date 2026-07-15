@@ -16,9 +16,7 @@ class OpenAIService:
     """
 
     def __init__(self):
-        self.client = OpenAI(
-            api_key=settings.OPENAI_API_KEY
-        )
+        self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     def generate_story(
         self,

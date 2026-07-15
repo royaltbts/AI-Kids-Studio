@@ -9,15 +9,12 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 from backend.app.characters.models import Character
-from backend.app.schemas.lesson import LessonResponse
-from backend.app.schemas.story_plan import StoryPlan
-from backend.app.schemas.scene_plan import ScenePlan
 from backend.app.schemas.episode_assets import EpisodeAssets
-from pydantic import BaseModel, Field
-
 from backend.app.schemas.image_prompt import ImagePrompt
+from backend.app.schemas.lesson import LessonResponse
 from backend.app.schemas.narration import Narration
-from backend.app.schemas.episode_assets import EpisodeAssets
+from backend.app.schemas.scene_plan import ScenePlan
+from backend.app.schemas.story_plan import StoryPlan
 
 
 class EpisodeContext(BaseModel):

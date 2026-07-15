@@ -1,10 +1,10 @@
 from backend.app.schemas.story import (
-    StoryResponse,
-    EpisodeInfo,
     Character,
+    EpisodeInfo,
+    QuizQuestion,
     Scene,
     Song,
-    QuizQuestion,
+    StoryResponse,
 )
 
 
@@ -13,13 +13,11 @@ class StoryService:
     def generate_story(self, topic: str, age_group: str):
 
         return StoryResponse(
-
             episode=EpisodeInfo(
                 title=f"{topic} Adventure",
                 learning_objective=f"Learn about {topic}",
                 age_group=age_group,
             ),
-
             characters=[
                 Character(
                     name="Toby Bear",
@@ -38,7 +36,6 @@ class StoryService:
                     role="Teacher",
                 ),
             ],
-
             scenes=[
                 Scene(
                     scene_number=1,
@@ -53,12 +50,10 @@ class StoryService:
                     duration=8,
                 ),
             ],
-
             song=Song(
                 title="Learning Song",
                 lyrics="A B C, let's learn happily...",
             ),
-
             quiz=[
                 QuizQuestion(
                     question="What did Toby learn today?",
@@ -70,6 +65,5 @@ class StoryService:
                     answer="ABC",
                 )
             ],
-
             moral="Learning with friends is always fun!",
         )

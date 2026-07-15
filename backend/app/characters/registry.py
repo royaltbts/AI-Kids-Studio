@@ -5,10 +5,10 @@ Central registry for all TinyVerse characters.
 """
 
 from backend.app.characters.default_characters import (
-    TOBY,
-    MIMI,
-    LEO,
     ELLIE,
+    LEO,
+    MIMI,
+    TOBY,
 )
 from backend.app.characters.models import Character
 

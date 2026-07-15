@@ -5,8 +5,8 @@ Creates the configured AI provider.
 """
 
 from backend.app.core.config import settings
-from backend.app.providers.mock_provider import MockProvider
 from backend.app.providers.base import AIProvider
+from backend.app.providers.mock_provider import MockProvider
 
 
 class ProviderFactory:
@@ -39,6 +39,4 @@ class ProviderFactory:
         # if provider == "ollama":
         #     return OllamaProvider()
 
-        raise ValueError(
-            f"Unsupported AI provider: {provider}"
-        )
+        raise ValueError(f"Unsupported AI provider: {provider}")
