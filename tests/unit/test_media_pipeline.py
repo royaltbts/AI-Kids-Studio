@@ -54,13 +54,9 @@ def test_media_pipeline():
     assert rendered.images[2].scene_number == 3
     assert rendered.images[3].scene_number == 4
 
-    assert rendered.images[0].image_path.endswith(
-        "scene_001.png"
-    )
+    assert rendered.images[0].image_path.endswith("scene_001.png")
 
-    assert rendered.images[3].image_path.endswith(
-        "scene_004.png"
-    )
+    assert rendered.images[3].image_path.endswith("scene_004.png")
 
     assert rendered.images[0].width == 1920
     assert rendered.images[0].height == 1080
@@ -77,14 +73,25 @@ def test_media_pipeline():
     assert rendered.audio[2].scene_number == 3
     assert rendered.audio[3].scene_number == 4
 
-    assert rendered.audio[0].audio_path.endswith(
-        "scene_001.mp3"
-    )
+    assert rendered.audio[0].audio_path.endswith("scene_001.mp3")
 
-    assert rendered.audio[3].audio_path.endswith(
-        "scene_004.mp3"
-    )
+    assert rendered.audio[3].audio_path.endswith("scene_004.mp3")
 
     assert rendered.audio[0].voice == "Friendly Female"
     assert rendered.audio[0].status == "rendered"
     assert rendered.audio[0].format == "mp3"
+
+    # ----------------------------------------------------------
+    # Music
+    # ----------------------------------------------------------
+
+    assert rendered.music is not None
+    assert rendered.music.title == "TinyVerse Background Music"
+
+    assert rendered.music.duration_seconds == 120
+
+    assert rendered.music.provider == "mock"
+
+    assert rendered.music.status == "rendered"
+
+    assert rendered.music.music_path.endswith("background.mp3")
