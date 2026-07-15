@@ -17,6 +17,7 @@ from pydantic import BaseModel, Field
 
 from backend.app.schemas.image_prompt import ImagePrompt
 from backend.app.schemas.narration import Narration
+from backend.app.schemas.episode_assets import EpisodeAssets
 
 
 class EpisodeContext(BaseModel):
@@ -38,3 +39,4 @@ class EpisodeContext(BaseModel):
     assets: EpisodeAssets | None = None
     image_prompts: list[ImagePrompt] = Field(default_factory=list)
     narrations: list[Narration] = Field(default_factory=list)
+    episode_assets: EpisodeAssets = Field(default_factory=EpisodeAssets)

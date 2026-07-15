@@ -10,6 +10,8 @@ from backend.app.agents.scene_agent import SceneAgent
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.characters.character_service import CharacterService
 from backend.app.agents.image_prompt_agent import ImagePromptAgent
+from backend.app.agents.narration_agent import NarrationAgent
+from backend.app.services.asset_assembler import AssetAssembler
 
 
 class EpisodeOrchestrator:
@@ -22,6 +24,7 @@ class EpisodeOrchestrator:
         self.story_agent = StoryAgent()
         self.scene_agent = SceneAgent()
         self.image_prompt_agent = ImagePromptAgent()
+        self.narration_agent = NarrationAgent()
 
     def generate_episode(
         self,
@@ -45,5 +48,9 @@ class EpisodeOrchestrator:
         context = self.scene_agent.generate(context)
 
         context = self.image_prompt_agent.generate(context)
+
+        context = self.narration_agent.generate(context)
+
+        context.episode_assets = AssetAssembler.build(context)
 
         return context.model_dump()

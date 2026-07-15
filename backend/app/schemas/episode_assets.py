@@ -1,8 +1,7 @@
 """
 Episode Assets Schema
 
-Contains every renderable asset required to produce
-a TinyVerse episode.
+Represents all renderable assets for one episode.
 """
 
 from pydantic import BaseModel, Field
@@ -12,7 +11,7 @@ from backend.app.schemas.scene_asset import SceneAsset
 
 class EpisodeAssets(BaseModel):
     """
-    Complete render package for one episode.
+    Collection of renderable assets for an episode.
     """
 
     title: str = ""
@@ -22,5 +21,7 @@ class EpisodeAssets(BaseModel):
     intro_music: str = ""
 
     outro_music: str = ""
+
+    total_duration: int = 0
 
     scenes: list[SceneAsset] = Field(default_factory=list)

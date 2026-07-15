@@ -1,28 +1,35 @@
 """
 Scene Asset Schema
 
-Represents all assets required to render a single scene.
+Represents every asset required to render one storyboard scene.
 """
 
-from pydantic import BaseModel
+from typing import Optional
 
+from pydantic import BaseModel, Field
+
+from backend.app.schemas.image_prompt import ImagePrompt
+from backend.app.schemas.narration import Narration
 from backend.app.schemas.scene import Scene
 
 
 class SceneAsset(BaseModel):
     """
-    Rendering assets for a single scene.
+    Complete production asset for one storyboard scene.
     """
 
+    # Original storyboard scene
     scene: Scene
 
-    image_prompt: str = ""
+    # AI-generated assets
+    image_prompt: Optional[ImagePrompt] = None
 
-    narration: str = ""
+    narration: Optional[Narration] = None
 
+    # Future rendering assets
     background_music: str = ""
 
-    sound_effects: list[str] = []
+    sound_effects: list[str] = Field(default_factory=list)
 
     camera_direction: str = ""
 
