@@ -11,25 +11,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.14"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
 
-      - name: Compile
+          pip install \
+            fastapi \
+            uvicorn \
+            pydantic \
+            pytest \
+            pytest-cov \
+            anyio \
+            ruff
+
+      - name: Compile Python Files
         run: |
           python -m compileall backend
 
-      - name: Ruff
+      - name: Run Ruff
         run: |
           ruff check .
 
-      - name: Run Tests
+      - name: Run Unit Tests
         run: |
           pytest tests/unit -v
+
+      - name: Display Success
+        if: success()
+        run: |
+          echo "✅ TinyVerse CI completed successfully."
