@@ -1,5 +1,5 @@
 """
-Image Renderer
+Base Image Renderer
 
 Base interface for image rendering.
 """

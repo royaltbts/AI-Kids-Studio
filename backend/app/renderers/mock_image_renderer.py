@@ -5,12 +5,12 @@ Returns deterministic rendered images for testing.
 """
 
 from backend.app.core.settings import settings
-from backend.app.renderers.base_renderer import BaseRenderer
+from backend.app.renderers.base_image_renderer import ImageRenderer
 from backend.app.schemas.image_prompt import ImagePrompt
 from backend.app.schemas.rendered_image import RenderedImage
 
 
-class MockImageRenderer(BaseRenderer):
+class MockImageRenderer(ImageRenderer):
     """
     Mock implementation of the image renderer.
     """

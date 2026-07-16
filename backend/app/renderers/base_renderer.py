@@ -1,20 +1,19 @@
 """
 Base Renderer
 
-Abstract base class for all renderers.
+Abstract base class for all media renderers.
 """
 
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class BaseRenderer(ABC):
     """
-    Base interface for all renderers.
+    Base class shared by all renderers.
+
+    This class exists so every renderer has a common parent.
+    Specialized renderer interfaces (ImageRenderer,
+    VoiceRenderer, MusicRenderer) inherit from this class.
     """
 
-    @abstractmethod
-    def render(self, *args, **kwargs):
-        """
-        Render an asset.
-        """
-        raise NotImplementedError
+    pass
