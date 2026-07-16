@@ -42,3 +42,33 @@ htmlcov/
 
 # Pytest
 .pytest_cache/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual Environment
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Build
+build/
+dist/
+
+# TinyVerse Output
+output/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Logs
+*.log

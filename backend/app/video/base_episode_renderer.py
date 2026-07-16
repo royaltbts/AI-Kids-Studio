@@ -4,8 +4,7 @@ Episode Renderer
 Base interface for episode renderers.
 """
 
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 from backend.app.schemas.rendered_episode import RenderedEpisode
 from backend.app.schemas.rendered_video import RenderedVideo

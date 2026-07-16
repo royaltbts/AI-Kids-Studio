@@ -4,8 +4,7 @@ Music Renderer
 Base interface for music renderers.
 """
 
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 from backend.app.schemas.rendered_music import RenderedMusic
 

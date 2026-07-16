@@ -4,12 +4,12 @@ Narration Agent
 Generates narration for every storyboard scene.
 """
 
+import logging
+
 from backend.app.agents.base_agent import BaseAgent
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.schemas.narration import Narration
 from backend.app.services.prompt_service import PromptService
-import logging
-
 
 logger = logging.getLogger(__name__)
 

@@ -4,7 +4,6 @@ Metadata Manager
 Handles reading and writing episode metadata.
 """
 
-import json
 from pathlib import Path
 
 from backend.app.schemas.episode_metadata import EpisodeMetadata

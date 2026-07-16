@@ -6,11 +6,11 @@ Combines AI-generated outputs into renderable scene assets.
 
 import logging
 
-logger = logging.getLogger(__name__)
-
 from backend.app.schemas.episode_assets import EpisodeAssets
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.schemas.scene_asset import SceneAsset
+
+logger = logging.getLogger(__name__)
 
 
 class AssetAssembler:
@@ -35,19 +35,25 @@ class AssetAssembler:
         if not context.scene_plan:
             return assets
 
-        scene_count = len(context.scene_plan.scenes)
-
         logger.info("Assembling episode assets.")
 
-        for index in range(scene_count):
-            asset = SceneAsset(
-                scene=context.scene_plan.scenes[index],
-                image_prompt=context.image_prompts[index],
-                narration=context.narrations[index],
+        for scene, image_prompt, narration in zip(
+            context.scene_plan.scenes,
+            context.image_prompts,
+            context.narrations,
+            strict=True,
+        ):
+            assets.scenes.append(
+                SceneAsset(
+                    scene=scene,
+                    image_prompt=image_prompt,
+                    narration=narration,
+                )
             )
 
-            assets.scenes.append(asset)
-
-        logger.info("Assembled %d scene assets.", len(assets.scenes))
+        logger.info(
+            "Assembled %d scene assets.",
+            len(assets.scenes),
+        )
 
         return assets

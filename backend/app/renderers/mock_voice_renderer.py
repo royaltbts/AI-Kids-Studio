@@ -4,10 +4,9 @@ Mock Voice Renderer
 Returns deterministic rendered audio objects for testing.
 """
 
-from backend.app.renderers.voice_renderer import VoiceRenderer
+from backend.app.renderers.base_renderer import BaseRenderer
 from backend.app.schemas.narration import Narration
 from backend.app.schemas.rendered_audio import RenderedAudio
-from backend.app.renderers.base_renderer import BaseRenderer
 
 
 class MockVoiceRenderer(BaseRenderer):

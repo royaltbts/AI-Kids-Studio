@@ -33,15 +33,27 @@ class SceneAgent(BaseAgent):
         prompt = PromptService.build_scene_agent_prompt(
             topic=context.topic,
             age_group=context.age_group,
-            story_title=(context.story.title if context.story and context.story.title is not None else ""),
-            story_intro=(context.story.introduction if context.story and context.story.introduction is not None else ""),
+            story_title=(
+                context.story.title
+                if context.story and context.story.title is not None
+                else ""
+            ),
+            story_intro=(
+                context.story.introduction
+                if context.story and context.story.introduction is not None
+                else ""
+            ),
         )
 
         context.scene_plan = self.generate_json(
             prompt=prompt,
             schema=ScenePlan,
         )
+
         logger.info("Generating scene plan.")
-        logger.info("Generated %d scenes.", len(context.scene_plan.scenes))
+        logger.info(
+            "Generated %d scenes.",
+            len(context.scene_plan.scenes),
+        )
 
         return context

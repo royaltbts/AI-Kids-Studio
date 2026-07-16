@@ -6,12 +6,12 @@ Returns deterministic rendered videos.
 
 import logging
 
-logger = logging.getLogger(__name__)
-
 from backend.app.core.settings import settings
 from backend.app.schemas.rendered_episode import RenderedEpisode
 from backend.app.schemas.rendered_video import RenderedVideo
 from backend.app.video.base_episode_renderer import EpisodeRenderer
+
+logger = logging.getLogger(__name__)
 
 
 class MockEpisodeRenderer(EpisodeRenderer):
@@ -36,7 +36,9 @@ class MockEpisodeRenderer(EpisodeRenderer):
             title="TinyVerse Episode",
             video_path=video_path,
             duration_seconds=episode.total_duration,
-            resolution=f"{settings.DEFAULT_IMAGE_WIDTH}x{settings.DEFAULT_IMAGE_HEIGHT}",
+            resolution=(
+                f"{settings.DEFAULT_IMAGE_WIDTH}" f"x{settings.DEFAULT_IMAGE_HEIGHT}"
+            ),
             fps=settings.DEFAULT_FPS,
             format="mp4",
             provider="mock",

@@ -4,8 +4,7 @@ Voice Renderer
 Base interface for all voice renderers.
 """
 
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 from backend.app.schemas.narration import Narration
 from backend.app.schemas.rendered_audio import RenderedAudio

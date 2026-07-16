@@ -5,10 +5,10 @@ Generates lesson plans for TinyVerse episodes.
 """
 
 from backend.app.agents.base_agent import BaseAgent
+from backend.app.core.logger import logger
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.schemas.lesson import LessonResponse
 from backend.app.services.prompt_service import PromptService
-from backend.app.core.logger import logger
 
 
 class LessonAgent(BaseAgent):
