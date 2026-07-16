@@ -47,9 +47,13 @@ class MediaPipeline:
 
         for scene_asset in assets.scenes:
 
+            #
+            # Image
+            #
+
             if scene_asset.image_prompt:
 
-                output_path = (
+                image_output_path = (
                     workspace
                     / settings.IMAGE_DIR
                     / f"scene_{scene_asset.scene.scene_number:03d}.png"
@@ -58,24 +62,31 @@ class MediaPipeline:
                 rendered_images.append(
                     self.image_renderer.render(
                         image_prompt=scene_asset.image_prompt,
-                        output_path=output_path,
+                        output_path=image_output_path,
                     )
                 )
 
             #
-            # Render Narration
+            # Narration
             #
 
             if scene_asset.narration:
 
+                audio_output_path = (
+                    workspace
+                    / settings.AUDIO_DIR
+                    / f"scene_{scene_asset.scene.scene_number:03d}.mp3"
+                )
+
                 rendered_audio.append(
                     self.voice_renderer.render(
-                        scene_asset.narration,
+                        narration=scene_asset.narration,
+                        output_path=audio_output_path,
                     )
                 )
 
         #
-        # Render Background Music
+        # Background Music
         #
 
         rendered_music: RenderedMusic = self.music_renderer.render(

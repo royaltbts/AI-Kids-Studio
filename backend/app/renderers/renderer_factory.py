@@ -9,6 +9,7 @@ from backend.app.renderers.mock_image_renderer import MockImageRenderer
 from backend.app.renderers.mock_music_renderer import MockMusicRenderer
 from backend.app.renderers.mock_voice_renderer import MockVoiceRenderer
 from backend.app.renderers.openai_image_renderer import OpenAIImageRenderer
+from backend.app.renderers.openai_voice_renderer import OpenAIVoiceRenderer
 
 
 class RendererFactory:
@@ -38,7 +39,15 @@ class RendererFactory:
         Return the configured voice renderer.
         """
 
-        return MockVoiceRenderer()
+        provider = settings.VOICE_PROVIDER.lower()
+
+        if provider == "mock":
+            return MockVoiceRenderer()
+
+        if provider == "openai":
+            return OpenAIVoiceRenderer()
+
+        raise ValueError(f"Unsupported voice provider: {provider}")
 
     @staticmethod
     def music_renderer():
