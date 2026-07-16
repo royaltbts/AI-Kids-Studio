@@ -1,7 +1,7 @@
 """
 Renderer Factory
 
-Creates renderer implementations.
+Creates configured renderer implementations.
 """
 
 from backend.app.core.settings import settings
@@ -28,14 +28,9 @@ class RendererFactory:
             return MockImageRenderer()
 
         if provider == "openai":
-            if not settings.OPENAI_API_KEY:
-                raise ValueError(
-                    "OPENAI_API_KEY is required when IMAGE_PROVIDER=openai."
-                )
-
             return OpenAIImageRenderer()
 
-        raise ValueError(f"Unsupported image renderer: {provider}")
+        raise ValueError(f"Unsupported image provider: {provider}")
 
     @staticmethod
     def voice_renderer():
@@ -43,19 +38,7 @@ class RendererFactory:
         Return the configured voice renderer.
         """
 
-        provider = settings.VOICE_PROVIDER.lower()
-
-        if provider == "mock":
-            return MockVoiceRenderer()
-
-        #
-        # Future
-        #
-        # if provider == "openai":
-        #     return OpenAITTSRenderer()
-        #
-
-        raise ValueError(f"Unsupported voice renderer: {provider}")
+        return MockVoiceRenderer()
 
     @staticmethod
     def music_renderer():
@@ -63,9 +46,4 @@ class RendererFactory:
         Return the configured music renderer.
         """
 
-        provider = settings.MUSIC_PROVIDER.lower()
-
-        if provider == "mock":
-            return MockMusicRenderer()
-
-        raise ValueError(f"Unsupported music renderer: {provider}")
+        return MockMusicRenderer()

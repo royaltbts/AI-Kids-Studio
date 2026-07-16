@@ -54,7 +54,7 @@ class Settings(BaseSettings):
     RESPONSES_DIR: str = "responses"
 
     # ==========================================================
-    # Rendering
+    # Rendering Defaults
     # ==========================================================
 
     DEFAULT_IMAGE_WIDTH: int = 1920
@@ -69,69 +69,65 @@ class Settings(BaseSettings):
 
     AI_PROVIDER: str = Field(
         default="mock",
-        description="LLM provider used by AI agents.",
+        description="LLM provider.",
     )
-
-    OPENAI_API_KEY: str = Field(
-        default="",
-        description="OpenAI API key.",
-    )
-
-    OPENAI_MODEL: str = Field(
-        default="gpt-4.1-mini",
-        description="OpenAI chat model.",
-    )
-
-    ANTHROPIC_API_KEY: str = ""
-
-    GEMINI_API_KEY: str = ""
-
-    # ==========================================================
-    # Media Renderers
-    # ==========================================================
 
     IMAGE_PROVIDER: str = Field(
         default="mock",
-        description="Image renderer implementation.",
+        description="Image provider.",
     )
 
     VOICE_PROVIDER: str = Field(
         default="mock",
-        description="Voice renderer implementation.",
+        description="Voice provider.",
     )
 
     MUSIC_PROVIDER: str = Field(
         default="mock",
-        description="Music renderer implementation.",
+        description="Music provider.",
     )
 
     VIDEO_PROVIDER: str = Field(
         default="mock",
-        description="Video renderer implementation.",
+        description="Video provider.",
     )
 
     # ==========================================================
-    # OpenAI Images
+    # OpenAI
     # ==========================================================
+
+    OPENAI_API_KEY: str = Field(
+        default="",
+        description="OpenAI API Key.",
+    )
+
+    OPENAI_MODEL: str = Field(
+        default="gpt-4.1-mini",
+        description="OpenAI LLM model.",
+    )
 
     OPENAI_IMAGE_MODEL: str = Field(
         default="gpt-image-1",
-        description="OpenAI image generation model.",
+        description="OpenAI Image model.",
     )
-
-    # ==========================================================
-    # OpenAI TTS
-    # ==========================================================
 
     OPENAI_TTS_MODEL: str = Field(
         default="gpt-4o-mini-tts",
-        description="OpenAI text-to-speech model.",
+        description="OpenAI TTS model.",
     )
 
     OPENAI_TTS_VOICE: str = Field(
         default="alloy",
-        description="Default OpenAI voice.",
+        description="OpenAI voice.",
     )
+
+    # ==========================================================
+    # Future Providers
+    # ==========================================================
+
+    ANTHROPIC_API_KEY: str = ""
+
+    GEMINI_API_KEY: str = ""
 
 
 settings = Settings()
