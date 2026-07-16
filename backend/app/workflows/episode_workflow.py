@@ -35,15 +35,15 @@ class EpisodeWorkflow:
         Generate a complete TinyVerse episode.
         """
 
-        # ==========================================================
-        # Create episode workspace first
-        # ==========================================================
+        #
+        # Create Episode Workspace
+        #
 
         workspace = OutputManager.create_episode_workspace()
 
-        # ==========================================================
-        # Shared episode context
-        # ==========================================================
+        #
+        # Shared Context
+        #
 
         context = EpisodeContext(
             topic=topic,
@@ -52,9 +52,9 @@ class EpisodeWorkflow:
             workspace=workspace,
         )
 
-        # ==========================================================
-        # AI Generation Pipeline
-        # ==========================================================
+        #
+        # AI Pipeline
+        #
 
         context = LessonAgent(provider).generate(context)
 
@@ -66,25 +66,26 @@ class EpisodeWorkflow:
 
         context = NarrationAgent(provider).generate(context)
 
-        # ==========================================================
-        # Assemble assets
-        # ==========================================================
+        #
+        # Assemble Assets
+        #
 
         assets = AssetAssembler.build(
             context,
         )
 
-        # ==========================================================
-        # Render media
-        # ==========================================================
+        #
+        # Render Media
+        #
 
         rendered = MediaPipeline().render(
-            assets,
+            workspace=workspace,
+            assets=assets,
         )
 
-        # ==========================================================
-        # Episode metadata
-        # ==========================================================
+        #
+        # Metadata
+        #
 
         metadata = EpisodeMetadata(
             episode_id=workspace.name,
@@ -95,9 +96,9 @@ class EpisodeWorkflow:
             status="completed",
         )
 
-        # ==========================================================
-        # Export episode
-        # ==========================================================
+        #
+        # Export
+        #
 
         return EpisodeExporter().export(
             workspace=workspace,

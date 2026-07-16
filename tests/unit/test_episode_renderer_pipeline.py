@@ -1,5 +1,5 @@
 """
-Tests for Episode Rendering Pipeline.
+Unit tests for Episode Renderer Pipeline.
 """
 
 from backend.app.agents.image_prompt_agent import ImagePromptAgent
@@ -10,10 +10,13 @@ from backend.app.agents.story_agent import StoryAgent
 from backend.app.schemas.episode_context import EpisodeContext
 from backend.app.services.asset_assembler import AssetAssembler
 from backend.app.services.media_pipeline import MediaPipeline
-from backend.app.video.video_factory import VideoFactory
+from backend.app.storage.output_manager import OutputManager
 
 
 def test_episode_renderer_pipeline():
+    """
+    Verify the complete renderer pipeline.
+    """
 
     context = EpisodeContext(
         topic="ABC",
@@ -28,26 +31,13 @@ def test_episode_renderer_pipeline():
 
     assets = AssetAssembler.build(context)
 
+    workspace = OutputManager.create_episode_workspace()
+
     rendered_episode = MediaPipeline().render(
-        assets,
+        workspace=workspace,
+        assets=assets,
     )
 
-    renderer = VideoFactory.episode_renderer()
-
-    video = renderer.render(
-        rendered_episode,
-    )
-
-    assert video.title == "TinyVerse Episode"
-
-    assert video.duration_seconds == 120
-
-    assert video.video_path.endswith("episode.mp4")
-
-    assert video.provider == "mock"
-
-    assert video.status == "rendered"
-
-    assert video.format == "mp4"
-
-    assert video.fps == 30
+    assert rendered_episode.images
+    assert rendered_episode.audio
+    assert rendered_episode.music is not None

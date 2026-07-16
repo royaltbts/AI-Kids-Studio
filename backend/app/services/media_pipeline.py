@@ -4,6 +4,8 @@ Media Pipeline
 Coordinates rendering of images, narration, music and video.
 """
 
+from pathlib import Path
+
 from backend.app.core.settings import settings
 from backend.app.renderers.renderer_factory import RendererFactory
 from backend.app.schemas.episode_assets import EpisodeAssets
@@ -29,17 +31,18 @@ class MediaPipeline:
 
     def render(
         self,
+        workspace: Path,
         assets: EpisodeAssets,
     ) -> RenderedEpisode:
         """
-        Render all media assets.
+        Render all media assets into the episode workspace.
         """
 
         rendered_images: list[RenderedImage] = []
         rendered_audio: list[RenderedAudio] = []
 
         #
-        # Render Images & Narration
+        # Render Images
         #
 
         for scene_asset in assets.scenes:
@@ -47,7 +50,7 @@ class MediaPipeline:
             if scene_asset.image_prompt:
 
                 output_path = (
-                    settings.OUTPUT_DIR
+                    workspace
                     / settings.IMAGE_DIR
                     / f"scene_{scene_asset.scene.scene_number:03d}.png"
                 )
@@ -58,6 +61,10 @@ class MediaPipeline:
                         output_path=output_path,
                     )
                 )
+
+            #
+            # Render Narration
+            #
 
             if scene_asset.narration:
 
@@ -77,7 +84,7 @@ class MediaPipeline:
         )
 
         #
-        # Assemble final episode
+        # Assemble Episode
         #
 
         return RenderedEpisode(
