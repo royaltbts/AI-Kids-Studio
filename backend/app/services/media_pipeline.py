@@ -1,11 +1,10 @@
 """
 Media Pipeline
 
-Coordinates media rendering for an episode.
+Coordinates rendering of images, narration, music and video.
 """
 
-import logging
-
+from backend.app.core.settings import settings
 from backend.app.renderers.renderer_factory import RendererFactory
 from backend.app.schemas.episode_assets import EpisodeAssets
 from backend.app.schemas.rendered_audio import RenderedAudio
@@ -13,15 +12,17 @@ from backend.app.schemas.rendered_episode import RenderedEpisode
 from backend.app.schemas.rendered_image import RenderedImage
 from backend.app.schemas.rendered_music import RenderedMusic
 
-logger = logging.getLogger(__name__)
-
 
 class MediaPipeline:
     """
-    Renders all media assets for an episode.
+    Coordinates rendering of all episode media.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """
+        Initialize configured renderers.
+        """
+
         self.image_renderer = RendererFactory.image_renderer()
         self.voice_renderer = RendererFactory.voice_renderer()
         self.music_renderer = RendererFactory.music_renderer()
@@ -36,52 +37,54 @@ class MediaPipeline:
 
         rendered_images: list[RenderedImage] = []
         rendered_audio: list[RenderedAudio] = []
-        rendered_music: RenderedMusic | None = None
 
-        # ----------------------------------------------------------
-        # Render Images & Audio
-        # ----------------------------------------------------------
+        #
+        # Render Images & Narration
+        #
 
-        for scene in assets.scenes:
+        for scene_asset in assets.scenes:
 
-            if scene.image_prompt:
+            if scene_asset.image_prompt:
+
+                output_path = (
+                    settings.OUTPUT_DIR
+                    / settings.IMAGE_DIR
+                    / f"scene_{scene_asset.scene.scene_number:03d}.png"
+                )
+
                 rendered_images.append(
                     self.image_renderer.render(
-                        scene.image_prompt,
+                        image_prompt=scene_asset.image_prompt,
+                        output_path=output_path,
                     )
                 )
 
-            if scene.narration:
+            if scene_asset.narration:
+
                 rendered_audio.append(
                     self.voice_renderer.render(
-                        scene.narration,
+                        scene_asset.narration,
                     )
                 )
 
-        # ----------------------------------------------------------
+        #
         # Render Background Music
-        # ----------------------------------------------------------
+        #
 
-        rendered_music = self.music_renderer.render(
-            title="TinyVerse Background Music",
+        rendered_music: RenderedMusic = self.music_renderer.render(
+            title=assets.title or "TinyVerse Background Music",
             duration_seconds=assets.total_duration,
         )
 
-        logger.info("Rendering media assets.")
-
-        logger.info(
-    "Rendered %d images and %d audio tracks.",
-    len(rendered_images),
-    len(rendered_audio),
-)
-
-        # ----------------------------------------------------------
-        # Build Episode
-        # ----------------------------------------------------------
+        #
+        # Assemble final episode
+        #
 
         return RenderedEpisode(
             images=rendered_images,
             audio=rendered_audio,
             music=rendered_music,
             total_duration=assets.total_duration,
+            episode_title=assets.title,
+            status="rendered",
         )

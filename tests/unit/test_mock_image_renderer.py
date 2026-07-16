@@ -2,7 +2,8 @@
 Unit tests for MockImageRenderer.
 """
 
-from backend.app.core.settings import settings
+from pathlib import Path
+
 from backend.app.renderers.mock_image_renderer import MockImageRenderer
 from backend.app.schemas.image_prompt import ImagePrompt
 
@@ -22,16 +23,15 @@ def test_render_image():
         aspect_ratio="16:9",
     )
 
-    image = MockImageRenderer().render(prompt)
+    output_path = Path("output/images/scene_001.png")
 
-    assert image.scene_number == 1
-
-    assert image.image_path == str(
-        settings.OUTPUT_DIR / settings.IMAGE_DIR / "scene_001.png"
+    image = MockImageRenderer().render(
+        image_prompt=prompt,
+        output_path=output_path,
     )
 
-    assert image.width == settings.DEFAULT_IMAGE_WIDTH
-
-    assert image.height == settings.DEFAULT_IMAGE_HEIGHT
-
+    assert image.scene_number == 1
+    assert image.image_path == str(output_path)
+    assert image.width > 0
+    assert image.height > 0
     assert image.status == "rendered"

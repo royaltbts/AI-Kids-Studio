@@ -5,6 +5,7 @@ Base interface for image rendering.
 """
 
 from abc import abstractmethod
+from pathlib import Path
 
 from backend.app.renderers.base_renderer import BaseRenderer
 from backend.app.schemas.image_prompt import ImagePrompt
@@ -20,6 +21,7 @@ class ImageRenderer(BaseRenderer):
     def render(
         self,
         image_prompt: ImagePrompt,
+        output_path: Path,
     ) -> RenderedImage:
         """
         Render one image.
