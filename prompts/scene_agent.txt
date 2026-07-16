@@ -14,27 +14,58 @@ Story Title:
 Story Introduction:
 {{story_intro}}
 
-Create exactly 4 scenes.
+Create exactly 4 storyboard scenes.
 
-Each scene must:
-- Have a short title
-- Have simple narration (2–3 sentences)
-- Describe what appears on screen
-- Last between 20–40 seconds
-- Use Toby Bear and friends consistently
-- Be colorful, friendly, and educational
-- Avoid violence or scary content
+Requirements:
+
+- Use Toby Bear and friends consistently.
+- Keep language appropriate for preschool children.
+- Each scene should last between 20–40 seconds.
+- Each scene must have:
+  - scene_number
+  - title
+  - narration
+  - visual_description
+  - duration_seconds
+- Narration should be 2–3 short sentences.
+- Visual descriptions should be colorful, educational, and animation-friendly.
+- No scary, violent, or inappropriate content.
 
 Return ONLY valid JSON.
 
-Schema:
+The JSON MUST exactly match this schema.
 
-[
-  {
-    "scene_number": 1,
-    "title": "",
-    "narration": "",
-    "visual_description": "",
-    "duration_seconds": 30
-  }
-]
+{
+  "total_duration": 120,
+  "scene_count": 4,
+  "scenes": [
+    {
+      "scene_number": 1,
+      "title": "",
+      "narration": "",
+      "visual_description": "",
+      "duration_seconds": 30
+    },
+    {
+      "scene_number": 2,
+      "title": "",
+      "narration": "",
+      "visual_description": "",
+      "duration_seconds": 30
+    },
+    {
+      "scene_number": 3,
+      "title": "",
+      "narration": "",
+      "visual_description": "",
+      "duration_seconds": 30
+    },
+    {
+      "scene_number": 4,
+      "title": "",
+      "narration": "",
+      "visual_description": "",
+      "duration_seconds": 30
+    }
+  ]
+}

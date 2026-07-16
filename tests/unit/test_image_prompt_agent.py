@@ -16,10 +16,10 @@ def test_generate_image_prompts():
         age_group="3-5",
     )
 
-    context = LessonAgent().generate(context)
-    context = StoryAgent().generate(context)
-    context = SceneAgent().generate(context)
-    context = ImagePromptAgent().generate(context)
+    context = LessonAgent("mock").generate(context)
+    context = StoryAgent("mock").generate(context)
+    context = SceneAgent("mock").generate(context)
+    context = ImagePromptAgent("mock").generate(context)
 
     assert len(context.image_prompts) == 4
 

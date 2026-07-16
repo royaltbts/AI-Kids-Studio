@@ -16,8 +16,17 @@ class LessonAgent(BaseAgent):
     Generates a lesson plan.
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(
+        self,
+        provider: str | None = None,
+    ) -> None:
+        """
+        Initialize the lesson agent.
+
+        If a provider is supplied, it overrides the default provider.
+        """
+
+        super().__init__(provider)
 
     def generate(
         self,
@@ -26,6 +35,12 @@ class LessonAgent(BaseAgent):
         """
         Generate the lesson plan and store it in the context.
         """
+
+        logger.info(
+            "Generating lesson for topic '%s' using provider '%s'.",
+            context.topic,
+            self.provider.provider_name(),
+        )
 
         prompt = PromptService.build_lesson_prompt(
             topic=context.topic,
@@ -36,10 +51,7 @@ class LessonAgent(BaseAgent):
             prompt=prompt,
             schema=LessonResponse,
         )
-        logger.info(
-            "Generating lesson for topic '%s'",
-            context.topic,
-        )
+
         logger.info("Lesson generated successfully.")
 
         return context

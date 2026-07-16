@@ -17,6 +17,7 @@ from backend.app.schemas.export_result import ExportResult
 from backend.app.services.asset_assembler import AssetAssembler
 from backend.app.services.episode_exporter import EpisodeExporter
 from backend.app.services.media_pipeline import MediaPipeline
+from backend.app.storage.output_manager import OutputManager
 
 
 class EpisodeWorkflow:
@@ -28,34 +29,65 @@ class EpisodeWorkflow:
         self,
         topic: str,
         age_group: str,
+        provider: str | None = None,
     ) -> ExportResult:
         """
         Generate a complete TinyVerse episode.
         """
 
+        # ==========================================================
+        # Create episode workspace first
+        # ==========================================================
+
+        workspace = OutputManager.create_episode_workspace()
+
+        # ==========================================================
+        # Shared episode context
+        # ==========================================================
+
         context = EpisodeContext(
             topic=topic,
             age_group=age_group,
+            provider=provider or "mock",
+            workspace=workspace,
         )
 
-        context = LessonAgent().generate(context)
+        # ==========================================================
+        # AI Generation Pipeline
+        # ==========================================================
 
-        context = StoryAgent().generate(context)
+        context = LessonAgent(provider).generate(context)
 
-        context = SceneAgent().generate(context)
+        context = StoryAgent(provider).generate(context)
 
-        context = ImagePromptAgent().generate(context)
+        context = SceneAgent(provider).generate(context)
 
-        context = NarrationAgent().generate(context)
+        context = ImagePromptAgent(provider).generate(context)
 
-        assets = AssetAssembler.build(context)
+        context = NarrationAgent(provider).generate(context)
+
+        # ==========================================================
+        # Assemble assets
+        # ==========================================================
+
+        assets = AssetAssembler.build(
+            context,
+        )
+
+        # ==========================================================
+        # Render media
+        # ==========================================================
 
         rendered = MediaPipeline().render(
             assets,
         )
 
+        # ==========================================================
+        # Episode metadata
+        # ==========================================================
+
         metadata = EpisodeMetadata(
-            episode_id="episode_001",
+            episode_id=workspace.name,
             topic=context.topic,
             age_group=context.age_group,
             created_at=datetime.now(),
@@ -63,7 +95,12 @@ class EpisodeWorkflow:
             status="completed",
         )
 
+        # ==========================================================
+        # Export episode
+        # ==========================================================
+
         return EpisodeExporter().export(
+            workspace=workspace,
             metadata=metadata,
             rendered_episode=rendered,
         )

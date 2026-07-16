@@ -1,7 +1,7 @@
 """
 Narration Agent
 
-Generates narration for every storyboard scene.
+Generates narration for storyboard scenes.
 """
 
 import logging
@@ -16,25 +16,37 @@ logger = logging.getLogger(__name__)
 
 class NarrationAgent(BaseAgent):
     """
-    Generates narration for storyboard scenes.
+    Generates narrations.
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(
+        self,
+        provider: str | None = None,
+    ) -> None:
+        """
+        Initialize the narration agent.
+
+        If a provider is supplied, it overrides the default provider.
+        """
+
+        super().__init__(provider)
 
     def generate(
         self,
         context: EpisodeContext,
     ) -> EpisodeContext:
         """
-        Generate narration for every storyboard scene.
+        Generate narrations.
         """
+
+        logger.info(
+            "Generating narrations using provider '%s'.",
+            self.provider.provider_name(),
+        )
 
         narrations: list[Narration] = []
 
-        # If there's no scene_plan or scenes, nothing to generate.
-        if not context.scene_plan or not getattr(context.scene_plan, "scenes", None):
-            context.narrations = narrations
+        if context.scene_plan is None:
             return context
 
         for scene in context.scene_plan.scenes:
@@ -56,10 +68,9 @@ class NarrationAgent(BaseAgent):
 
         context.narrations = narrations
 
-        logger.info("Generating narrations.")
         logger.info(
-    "Generated %d narrations.",
-    len(context.narrations),
-)
+            "Generated %d narrations.",
+            len(context.narrations),
+        )
 
         return context

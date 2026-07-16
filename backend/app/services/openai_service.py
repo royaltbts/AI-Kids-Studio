@@ -6,7 +6,7 @@ Handles communication with the OpenAI API.
 
 from openai import OpenAI
 
-from backend.app.core.config import settings
+from backend.app.core.settings import settings
 from backend.app.services.prompt_service import PromptService
 
 

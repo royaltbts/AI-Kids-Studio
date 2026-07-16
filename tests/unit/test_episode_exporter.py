@@ -79,8 +79,7 @@ def test_episode_exporter():
     exporter = EpisodeExporter()
 
     result = exporter.export(
-        metadata=metadata,
-        rendered_episode=rendered,
+        metadata=metadata, rendered_episode=rendered, workspace=Path("output")
     )
 
     assert result.success is True

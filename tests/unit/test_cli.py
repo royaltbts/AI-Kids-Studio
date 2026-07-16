@@ -1,14 +1,17 @@
 """
-Tests for TinyVerse CLI.
+CLI tests.
 """
+
 
 from backend.app.cli.generate_episode import main
 
 
 def test_cli(monkeypatch):
     """
-    Verify CLI execution.
+    Verify CLI execution using the mock provider.
     """
+
+    monkeypatch.setenv("AI_PROVIDER", "mock")
 
     monkeypatch.setattr(
         "sys.argv",
@@ -18,6 +21,8 @@ def test_cli(monkeypatch):
             "ABC",
             "--age-group",
             "3-5",
+            "--provider",
+            "mock",
         ],
     )
 

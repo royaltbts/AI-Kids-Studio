@@ -1,7 +1,7 @@
 """
 Story Agent
 
-Generates a story outline for a TinyVerse episode.
+Generates story outlines for TinyVerse episodes.
 """
 
 from backend.app.agents.base_agent import BaseAgent
@@ -16,8 +16,17 @@ class StoryAgent(BaseAgent):
     Generates a story outline.
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(
+        self,
+        provider: str | None = None,
+    ) -> None:
+        """
+        Initialize the story agent.
+
+        If a provider is supplied, it overrides the default provider.
+        """
+
+        super().__init__(provider)
 
     def generate(
         self,
@@ -27,9 +36,11 @@ class StoryAgent(BaseAgent):
         Generate the story and store it in the context.
         """
 
-        assert (
-            context.lesson is not None
-        ), "Lesson context is required for story generation"
+        logger.info(
+            "Generating story for '%s' using provider '%s'.",
+            context.topic,
+            self.provider.provider_name(),
+        )
 
         prompt = PromptService.build_story_agent_prompt(
             topic=context.topic,
@@ -42,10 +53,7 @@ class StoryAgent(BaseAgent):
             prompt=prompt,
             schema=StoryPlan,
         )
-        logger.info(
-            "Generating story for '%s'",
-            context.topic,
-        )
+
         logger.info("Story generated successfully.")
 
         return context

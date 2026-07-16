@@ -14,9 +14,8 @@ def test_generate_story():
         age_group="3-5",
     )
 
-    context = LessonAgent().generate(context)
-
-    context = StoryAgent().generate(context)
+    context = LessonAgent("mock").generate(context)
+    context = StoryAgent("mock").generate(context)
 
     assert context.story is not None
     assert context.story.title == "ABC Adventure"

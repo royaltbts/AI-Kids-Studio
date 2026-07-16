@@ -19,30 +19,36 @@ class SceneAgent(BaseAgent):
     Generates storyboard scenes.
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(
+        self,
+        provider: str | None = None,
+    ) -> None:
+        """
+        Initialize the scene agent.
+
+        If a provider is supplied, it overrides the default provider.
+        """
+
+        super().__init__(provider)
 
     def generate(
         self,
         context: EpisodeContext,
     ) -> EpisodeContext:
         """
-        Generate storyboard scenes and store them in the context.
+        Generate storyboard scenes.
         """
+
+        logger.info(
+            "Generating scene plan using provider '%s'.",
+            self.provider.provider_name(),
+        )
 
         prompt = PromptService.build_scene_agent_prompt(
             topic=context.topic,
             age_group=context.age_group,
-            story_title=(
-                context.story.title
-                if context.story and context.story.title is not None
-                else ""
-            ),
-            story_intro=(
-                context.story.introduction
-                if context.story and context.story.introduction is not None
-                else ""
-            ),
+            story_title=(context.story.title if context.story else ""),
+            story_intro=(context.story.introduction if context.story else ""),
         )
 
         context.scene_plan = self.generate_json(
@@ -50,7 +56,6 @@ class SceneAgent(BaseAgent):
             schema=ScenePlan,
         )
 
-        logger.info("Generating scene plan.")
         logger.info(
             "Generated %d scenes.",
             len(context.scene_plan.scenes),

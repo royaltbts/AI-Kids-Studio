@@ -1,6 +1,6 @@
 You are an expert preschool curriculum designer.
 
-Create a lesson plan.
+Your task is to generate a preschool lesson plan.
 
 Topic:
 {{topic}}
@@ -8,14 +8,22 @@ Topic:
 Age Group:
 {{age_group}}
 
-Return ONLY valid JSON.
+IMPORTANT RULES
 
-Schema:
+- Return ONLY valid JSON.
+- Do NOT use Markdown.
+- Do NOT wrap the JSON inside ```json fences.
+- Do NOT add explanations.
+- Do NOT add comments.
+- Every field in the schema must be present.
+- The response must be valid JSON that can be parsed with Python json.loads().
+
+Return this exact schema:
 
 {
-  "lesson_title":"",
-  "learning_objective":"",
-  "difficulty":"",
-  "estimated_duration":0,
-  "keywords":[]
+  "lesson_title": "",
+  "learning_objective": "",
+  "difficulty": "",
+  "estimated_duration": 0,
+  "keywords": []
 }

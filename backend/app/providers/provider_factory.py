@@ -4,9 +4,10 @@ Provider Factory
 Creates the configured AI provider.
 """
 
-from backend.app.core.config import settings
+from backend.app.core.settings import settings
 from backend.app.providers.base import AIProvider
 from backend.app.providers.mock_provider import MockProvider
+from backend.app.providers.openai_provider import OpenAIProvider
 
 
 class ProviderFactory:
@@ -15,28 +16,29 @@ class ProviderFactory:
     """
 
     @staticmethod
-    def get_provider() -> AIProvider:
+    def get_provider(
+        provider_name: str | None = None,
+    ) -> AIProvider:
         """
         Return the configured AI provider.
+
+        If provider_name is supplied, it overrides the default
+        provider configured in the application settings.
         """
 
-        provider = settings.AI_PROVIDER.lower()
+        provider = (
+            provider_name.lower() if provider_name else settings.AI_PROVIDER.lower()
+        )
 
         if provider == "mock":
             return MockProvider()
 
-        # Future providers
-        #
-        # if provider == "claude":
-        #     return ClaudeProvider()
-        #
-        # if provider == "gemini":
-        #     return GeminiProvider()
-        #
-        # if provider == "openai":
-        #     return OpenAIProvider()
-        #
-        # if provider == "ollama":
-        #     return OllamaProvider()
+        if provider == "openai":
+            if not settings.OPENAI_API_KEY:
+                raise ValueError(
+                    "OPENAI_API_KEY is required when using the OpenAI provider."
+                )
+
+            return OpenAIProvider()
 
         raise ValueError(f"Unsupported AI provider: {provider}")

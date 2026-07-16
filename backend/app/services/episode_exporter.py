@@ -10,7 +10,6 @@ from backend.app.schemas.episode_metadata import EpisodeMetadata
 from backend.app.schemas.export_result import ExportResult
 from backend.app.schemas.rendered_episode import RenderedEpisode
 from backend.app.services.metadata_manager import MetadataManager
-from backend.app.storage.output_manager import OutputManager
 
 
 class EpisodeExporter:
@@ -20,14 +19,16 @@ class EpisodeExporter:
 
     def export(
         self,
+        workspace: Path,
         metadata: EpisodeMetadata,
         rendered_episode: RenderedEpisode,
     ) -> ExportResult:
         """
         Export a rendered episode.
-        """
 
-        workspace = OutputManager.create_episode_workspace()
+        The workspace is created earlier by EpisodeWorkflow and passed
+        into the exporter.
+        """
 
         metadata_path = MetadataManager.save(
             workspace,

@@ -16,28 +16,41 @@ logger = logging.getLogger(__name__)
 
 class ImagePromptAgent(BaseAgent):
     """
-    Generates image prompts for storyboard scenes.
+    Generates image prompts.
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(
+        self,
+        provider: str | None = None,
+    ) -> None:
+        """
+        Initialize the image prompt agent.
+
+        If a provider is supplied, it overrides the default provider.
+        """
+
+        super().__init__(provider)
 
     def generate(
         self,
         context: EpisodeContext,
     ) -> EpisodeContext:
         """
-        Generate image prompts for all storyboard scenes.
+        Generate image prompts.
         """
+
+        logger.info(
+            "Generating image prompts using provider '%s'.",
+            self.provider.provider_name(),
+        )
 
         image_prompts: list[ImagePrompt] = []
 
         if context.scene_plan is None:
             return context
 
-        logger.info("Generating image prompts.")
-
         for scene in context.scene_plan.scenes:
+
             prompt = PromptService.build_image_prompt(
                 topic=context.topic,
                 age_group=context.age_group,

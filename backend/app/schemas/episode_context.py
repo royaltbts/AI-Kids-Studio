@@ -4,6 +4,7 @@ Episode Context
 Shared state passed between all AI agents.
 """
 
+from pathlib import Path
 from typing import Optional
 
 from pydantic import BaseModel, Field
@@ -22,18 +23,50 @@ class EpisodeContext(BaseModel):
     Shared state for a complete TinyVerse episode.
     """
 
+    # ==========================================================
+    # Episode Information
+    # ==========================================================
+
     topic: str
 
     age_group: str
 
-    characters: list[Character] = Field(default_factory=list)
+    provider: str = "mock"
+
+    workspace: Path | None = None
+
+    # ==========================================================
+    # Characters
+    # ==========================================================
+
+    characters: list[Character] = Field(
+        default_factory=list,
+    )
+
+    # ==========================================================
+    # AI Outputs
+    # ==========================================================
 
     lesson: Optional[LessonResponse] = None
 
     story: Optional[StoryPlan] = None
 
     scene_plan: Optional[ScenePlan] = None
+
+    image_prompts: list[ImagePrompt] = Field(
+        default_factory=list,
+    )
+
+    narrations: list[Narration] = Field(
+        default_factory=list,
+    )
+
+    # ==========================================================
+    # Generated Assets
+    # ==========================================================
+
     assets: EpisodeAssets | None = None
-    image_prompts: list[ImagePrompt] = Field(default_factory=list)
-    narrations: list[Narration] = Field(default_factory=list)
-    episode_assets: EpisodeAssets = Field(default_factory=EpisodeAssets)
+
+    episode_assets: EpisodeAssets = Field(
+        default_factory=EpisodeAssets,
+    )

@@ -32,6 +32,16 @@ def main() -> int:
         help="Target age group.",
     )
 
+    parser.add_argument(
+        "--provider",
+        choices=[
+            "mock",
+            "openai",
+        ],
+        default=None,
+        help=("AI provider to use. " "Overrides the value configured in backend/.env."),
+    )
+
     args = parser.parse_args()
 
     print()
@@ -42,8 +52,11 @@ def main() -> int:
 
     print(f"Topic      : {args.topic}")
     print(f"Age Group  : {args.age_group}")
-    print()
 
+    if args.provider:
+        print(f"Provider   : {args.provider}")
+
+    print()
     print("Generating episode...")
     print()
 
@@ -52,6 +65,7 @@ def main() -> int:
     result = workflow.generate_episode(
         topic=args.topic,
         age_group=args.age_group,
+        provider=args.provider,
     )
 
     print("✓ Episode generated successfully")
