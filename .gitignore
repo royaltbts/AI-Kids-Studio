@@ -63,3 +63,9 @@ htmlcov/
 # Pytest
 # ==========================
 .pytest_cache/
+# ==========================
+# TinyVerse Generated Output
+# ==========================
+output/
+
+

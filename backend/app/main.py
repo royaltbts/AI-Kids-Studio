@@ -6,6 +6,7 @@ from backend.app.api.routes.prompt import router as prompt_router
 from backend.app.api.routes.provider import router as provider_router
 from backend.app.api.routes.story import router as story_router
 from backend.app.api.routes.system import router as system_router
+from backend.app.api.routes.episodes import router as episode_router
 
 app = FastAPI(
     title="TinyVerse Kids Studio",
@@ -19,6 +20,7 @@ app.include_router(system_router)
 app.include_router(prompt_router)
 app.include_router(lesson_router)
 app.include_router(provider_router)
+app.include_router(episode_router)
 
 
 @app.get("/")
