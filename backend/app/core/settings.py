@@ -26,7 +26,6 @@ class Settings(BaseSettings):
     # ==========================================================
 
     PROJECT_NAME: str = "TinyVerse"
-
     APP_VERSION: str = "1.0.0"
 
     # ==========================================================
@@ -36,21 +35,14 @@ class Settings(BaseSettings):
     OUTPUT_DIR: Path = Path("output")
 
     IMAGE_DIR: str = "images"
-
     AUDIO_DIR: str = "audio"
-
     MUSIC_DIR: str = "music"
-
     VIDEO_DIR: str = "video"
-
     THUMBNAIL_DIR: str = "thumbnails"
 
     LOG_DIR: str = "logs"
-
     TRACE_DIR: str = "trace"
-
     PROMPTS_DIR: str = "prompts"
-
     RESPONSES_DIR: str = "responses"
 
     # ==========================================================
@@ -58,9 +50,7 @@ class Settings(BaseSettings):
     # ==========================================================
 
     DEFAULT_IMAGE_WIDTH: int = 1920
-
     DEFAULT_IMAGE_HEIGHT: int = 1080
-
     DEFAULT_FPS: int = 30
 
     # ==========================================================
@@ -83,7 +73,6 @@ class Settings(BaseSettings):
     )
 
     ANTHROPIC_API_KEY: str = ""
-
     GEMINI_API_KEY: str = ""
 
     # ==========================================================
@@ -135,6 +124,44 @@ class Settings(BaseSettings):
     VIDEO_PROVIDER: str = Field(
         default="mock",
         description="Video provider implementation.",
+    )
+
+    # ==========================================================
+    # Retry Configuration
+    # ==========================================================
+
+    OPENAI_MAX_RETRIES: int = Field(
+        default=3,
+        description="Maximum number of retries for transient OpenAI API failures.",
+    )
+
+    OPENAI_RETRY_DELAY: float = Field(
+        default=1.0,
+        description="Initial retry delay in seconds.",
+    )
+
+    OPENAI_RETRY_BACKOFF: float = Field(
+        default=2.0,
+        description="Exponential backoff multiplier.",
+    )
+
+    # ==========================================================
+    # Cost Estimation
+    # ==========================================================
+
+    OPENAI_IMAGE_COST: float = Field(
+        default=0.04,
+        description="Estimated cost per generated image in USD.",
+    )
+
+    OPENAI_TTS_COST_PER_1K: float = Field(
+        default=0.015,
+        description="Estimated TTS cost per 1,000 characters in USD.",
+    )
+
+    OPENAI_LLM_COST_PER_1K: float = Field(
+        default=0.005,
+        description="Estimated LLM cost per 1,000 tokens in USD.",
     )
 
 

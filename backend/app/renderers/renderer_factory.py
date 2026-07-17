@@ -20,12 +20,12 @@ class RendererFactory:
     """
 
     @staticmethod
-    def image_renderer():
+    def image_renderer(provider: str | None = None):
         """
         Return configured image renderer.
         """
 
-        provider = settings.IMAGE_PROVIDER.lower()
+        provider = (provider or settings.IMAGE_PROVIDER).lower()
 
         if provider == "mock":
             return MockImageRenderer()
@@ -36,12 +36,12 @@ class RendererFactory:
         raise ValueError(f"Unsupported image provider: {provider}")
 
     @staticmethod
-    def voice_renderer():
+    def voice_renderer(provider: str | None = None):
         """
         Return configured voice renderer.
         """
 
-        provider = settings.VOICE_PROVIDER.lower()
+        provider = (provider or settings.VOICE_PROVIDER).lower()
 
         if provider == "mock":
             return MockVoiceRenderer()
@@ -52,16 +52,8 @@ class RendererFactory:
         raise ValueError(f"Unsupported voice provider: {provider}")
 
     @staticmethod
-    def music_renderer():
-        """
-        Return configured music renderer.
-        """
-
-        provider = settings.MUSIC_PROVIDER.lower()
-
-        #
-        # Only Mock is available for now.
-        #
+    def music_renderer(provider: str | None = None):
+        provider = (provider or settings.MUSIC_PROVIDER).lower()
 
         if provider == "mock":
             return MockMusicRenderer()
@@ -69,12 +61,8 @@ class RendererFactory:
         raise ValueError(f"Unsupported music provider: {provider}")
 
     @staticmethod
-    def video_renderer():
-        """
-        Return configured video renderer.
-        """
-
-        provider = settings.VIDEO_PROVIDER.lower()
+    def video_renderer(provider: str | None = None):
+        provider = (provider or settings.VIDEO_PROVIDER).lower()
 
         if provider == "mock":
             return MockVideoRenderer()

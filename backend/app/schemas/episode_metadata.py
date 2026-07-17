@@ -6,11 +6,19 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+from backend.app.schemas.generation_statistics import (
+    GenerationStatistics,
+)
+
 
 class EpisodeMetadata(BaseModel):
     """
-    Metadata describing a generated episode.
+    Metadata describing a generated TinyVerse episode.
     """
+
+    #
+    # Episode Information
+    #
 
     episode_id: str
 
@@ -22,8 +30,18 @@ class EpisodeMetadata(BaseModel):
 
     duration_seconds: int
 
+    status: str = "completed"
+
+    #
+    # Output Assets
+    #
+
     video_path: str = ""
 
     thumbnail_path: str = ""
 
-    status: str = "completed"
+    #
+    # Runtime Statistics
+    #
+
+    statistics: GenerationStatistics | None = None

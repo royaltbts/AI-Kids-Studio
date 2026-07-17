@@ -5,11 +5,15 @@ Generates images using the OpenAI Images API.
 """
 
 import base64
+import logging
 
-from openai import OpenAI
+from openai import APIConnectionError, APITimeoutError, OpenAI, RateLimitError
 
 from backend.app.core.settings import settings
 from backend.app.image_providers.base import ImageProvider
+from backend.app.services.retry_manager import RetryManager
+
+logger = logging.getLogger(__name__)
 
 
 class OpenAIImageProvider(ImageProvider):
@@ -33,6 +37,20 @@ class OpenAIImageProvider(ImageProvider):
 
         return "openai"
 
+    def _generate(
+        self,
+        prompt: str,
+    ):
+        """
+        Execute a single OpenAI Images request.
+        """
+
+        return self.client.images.generate(
+            model=settings.OPENAI_IMAGE_MODEL,
+            prompt=prompt,
+            size="1024x1024",
+        )
+
     def generate_image(
         self,
         prompt: str,
@@ -41,12 +59,27 @@ class OpenAIImageProvider(ImageProvider):
         Generate an image and return PNG bytes.
         """
 
-        response = self.client.images.generate(
-            model="gpt-image-1",
-            prompt=prompt,
-            size="1024x1024",
+        logger.info("Generating image using OpenAI.")
+
+        response = RetryManager.run(
+            self._generate,
+            prompt,
+            retries=settings.OPENAI_MAX_RETRIES,
+            delay=settings.OPENAI_RETRY_DELAY,
+            backoff=settings.OPENAI_RETRY_BACKOFF,
+            retry_exceptions=(
+                APITimeoutError,
+                APIConnectionError,
+                RateLimitError,
+            ),
         )
 
+        if not response.data:
+            raise ValueError("OpenAI returned no image.")
+
         image_base64 = response.data[0].b64_json
+
+        if image_base64 is None:
+            raise ValueError("OpenAI returned empty image.")
 
         return base64.b64decode(image_base64)

@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException
 
 from backend.app.api.schemas.generate_request import GenerateEpisodeRequest
 from backend.app.api.schemas.generate_response import GenerateEpisodeResponse
-from backend.app.workflows.episode_workflow import EpisodeWorkflow
+from backend.app.services.episode_workflow import EpisodeWorkflow
 
 router = APIRouter(
     prefix="/episodes",

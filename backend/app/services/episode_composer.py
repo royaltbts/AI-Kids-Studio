@@ -4,6 +4,7 @@ Episode Composer
 Combines rendered scene videos into a single episode using FFmpeg.
 """
 
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -22,27 +23,10 @@ class EpisodeComposer:
     ) -> Path:
         """
         Combine multiple scene videos into one episode.
-
-        Parameters
-        ----------
-        workspace : Path
-            Episode workspace directory.
-
-        scene_videos : list[Path]
-            Ordered list of rendered scene videos.
-
-        Returns
-        -------
-        Path
-            Path to the final episode.mp4.
         """
 
         if not scene_videos:
             raise ValueError("No scene videos were supplied.")
-
-        #
-        # Create video directory if needed
-        #
 
         video_dir = workspace / settings.VIDEO_DIR
 
@@ -51,14 +35,28 @@ class EpisodeComposer:
             exist_ok=True,
         )
 
+        output_video = video_dir / "episode.mp4"
+
         #
-        # Create FFmpeg concat list
+        # Mock renderer produces empty placeholder videos.
+        # Detect them and simply copy the first one.
+        #
+
+        if all(video.stat().st_size == 0 for video in scene_videos):
+            shutil.copyfile(
+                scene_videos[0],
+                output_video,
+            )
+            return output_video
+
+        #
+        # Build concat list for FFmpeg.
         #
 
         concat_file = video_dir / "concat.txt"
 
         with concat_file.open(
-            mode="w",
+            "w",
             encoding="utf-8",
         ) as file:
 
@@ -69,28 +67,20 @@ class EpisodeComposer:
 
                 file.write(f"file '{video.resolve()}'\n")
 
-        #
-        # Final output
-        #
-
-        output_video = video_dir / "episode.mp4"
-
-        command = [
-            "ffmpeg",
-            "-y",
-            "-f",
-            "concat",
-            "-safe",
-            "0",
-            "-i",
-            str(concat_file),
-            "-c",
-            "copy",
-            str(output_video),
-        ]
-
         subprocess.run(
-            command,
+            [
+                "ffmpeg",
+                "-y",
+                "-f",
+                "concat",
+                "-safe",
+                "0",
+                "-i",
+                str(concat_file),
+                "-c",
+                "copy",
+                str(output_video),
+            ],
             check=True,
         )
 

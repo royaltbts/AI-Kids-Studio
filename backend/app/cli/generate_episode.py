@@ -7,7 +7,7 @@ Generate a TinyVerse episode from the command line.
 import argparse
 import sys
 
-from backend.app.workflows.episode_workflow import EpisodeWorkflow
+from backend.app.services.episode_workflow import EpisodeWorkflow
 
 
 def main() -> int:

@@ -16,19 +16,15 @@ from backend.app.schemas.rendered_video import RenderedVideo
 
 
 class MediaPipeline:
-    """
-    Coordinates rendering of all episode media.
-    """
+    """Coordinates rendering of all episode media."""
 
-    def __init__(self) -> None:
-        """
-        Initialize configured renderers.
-        """
+    def __init__(self, provider: str | None = None) -> None:
+        """Initialize configured renderers."""
 
-        self.image_renderer = RendererFactory.image_renderer()
-        self.voice_renderer = RendererFactory.voice_renderer()
-        self.music_renderer = RendererFactory.music_renderer()
-        self.video_renderer = RendererFactory.video_renderer()
+        self.image_renderer = RendererFactory.image_renderer(provider)
+        self.voice_renderer = RendererFactory.voice_renderer(provider)
+        self.music_renderer = RendererFactory.music_renderer(provider)
+        self.video_renderer = RendererFactory.video_renderer(provider)
 
     def render(
         self,
