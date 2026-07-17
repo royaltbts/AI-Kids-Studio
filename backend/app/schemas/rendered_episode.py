@@ -1,7 +1,7 @@
 """
 Rendered Episode Schema
 
-Represents all rendered media assets for an episode.
+Represents all rendered media for one episode.
 """
 
 from pydantic import BaseModel, Field
@@ -14,25 +14,24 @@ from backend.app.schemas.rendered_video import RenderedVideo
 
 class RenderedEpisode(BaseModel):
     """
-    Final rendered assets for an episode.
+    Complete rendered episode.
     """
 
-    images: list[RenderedImage] = Field(
-        default_factory=list,
-    )
+    # Images
+    images: list[RenderedImage] = Field(default_factory=list)
 
-    audio: list[RenderedAudio] = Field(
-        default_factory=list,
-    )
+    # Narration
+    audio: list[RenderedAudio] = Field(default_factory=list)
 
+    # Scene videos
+    videos: list[RenderedVideo] = Field(default_factory=list)
+
+    # Background music
     music: RenderedMusic | None = None
 
-    video: RenderedVideo | None = None
-
-    total_duration: int = 0
-
+    # Episode metadata
     episode_title: str = ""
 
-    thumbnail_path: str = ""
+    total_duration: int = 0
 
     status: str = "rendered"

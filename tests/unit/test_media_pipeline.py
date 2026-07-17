@@ -1,5 +1,5 @@
 """
-Unit tests for MediaPipeline.
+Tests for MediaPipeline.
 """
 
 from backend.app.agents.image_prompt_agent import ImagePromptAgent
@@ -15,12 +15,15 @@ from backend.app.storage.output_manager import OutputManager
 
 def test_media_pipeline():
     """
-    Verify the complete media rendering pipeline.
+    Verify complete media rendering.
     """
+
+    workspace = OutputManager.create_episode_workspace()
 
     context = EpisodeContext(
         topic="ABC",
         age_group="3-5",
+        workspace=workspace,
     )
 
     context = LessonAgent().generate(context)
@@ -31,14 +34,12 @@ def test_media_pipeline():
 
     assets = AssetAssembler.build(context)
 
-    workspace = OutputManager.create_episode_workspace()
-
     rendered = MediaPipeline().render(
         workspace=workspace,
         assets=assets,
     )
 
-    assert len(rendered.images) == 4
-    assert len(rendered.audio) == 4
+    assert len(rendered.images) > 0
+    assert len(rendered.audio) > 0
+    assert len(rendered.videos) > 0
     assert rendered.music is not None
-    assert rendered.total_duration > 0

@@ -24,22 +24,36 @@ class EpisodeExporter:
         rendered_episode: RenderedEpisode,
     ) -> ExportResult:
         """
-        Export a rendered episode.
-
-        The workspace is created earlier by EpisodeWorkflow and passed
-        into the exporter.
+        Export metadata and the final episode.
         """
+
+        #
+        # Save metadata
+        #
 
         metadata_path = MetadataManager.save(
             workspace,
             metadata,
         )
 
+        #
+        # Final composed episode
+        #
+
         video_path = (
-            Path(rendered_episode.video.video_path)
-            if rendered_episode.video
-            else Path()
+            workspace
+            / "video"
+            / "episode.mp4"
         )
+
+        if not video_path.exists():
+            raise FileNotFoundError(
+                f"Final episode not found: {video_path}"
+            )
+
+        #
+        # Export result
+        #
 
         return ExportResult(
             workspace=workspace,

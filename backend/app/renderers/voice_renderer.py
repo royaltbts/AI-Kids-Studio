@@ -1,26 +1,105 @@
 """
-Voice Renderer
+OpenAI Voice Renderer
 
-Base interface for all voice renderers.
+Renders speech audio using the configured voice provider.
+Supports automatic asset caching.
 """
 
-from abc import ABC, abstractmethod
+import logging
+from pathlib import Path
 
+from backend.app.renderers.base_renderer import BaseRenderer
 from backend.app.schemas.narration import Narration
 from backend.app.schemas.rendered_audio import RenderedAudio
+from backend.app.voice_providers.provider_factory import VoiceProviderFactory
+
+logger = logging.getLogger(__name__)
 
 
-class VoiceRenderer(ABC):
+class OpenAIVoiceRenderer(BaseRenderer):
     """
-    Base interface for voice rendering providers.
+    OpenAI implementation of the voice renderer.
     """
 
-    @abstractmethod
+    def __init__(self) -> None:
+        """
+        Initialize the configured voice provider.
+        """
+
+        self.provider = VoiceProviderFactory.get_provider("openai")
+
     def render(
         self,
         narration: Narration,
+        output_path: Path,
     ) -> RenderedAudio:
         """
-        Render narration into an audio file.
+        Generate speech using OpenAI TTS.
+
+        If the audio already exists it is reused.
         """
-        raise NotImplementedError
+
+        #
+        # Cached narration
+        #
+
+        if output_path.exists():
+
+            logger.info(
+                "Using cached narration for scene %s.",
+                narration.scene_number,
+            )
+
+            return RenderedAudio(
+                scene_number=narration.scene_number,
+                title=narration.title,
+                narration=narration.narration,
+                voice=narration.voice,
+                duration_seconds=narration.duration_seconds,
+                audio_path=str(output_path),
+                sample_rate=24000,
+                channels=2,
+                format="mp3",
+                provider=self.provider.provider_name(),
+                status="cached",
+            )
+
+        #
+        # Generate narration
+        #
+
+        logger.info(
+            "Generating narration for scene %s using %s.",
+            narration.scene_number,
+            self.provider.provider_name(),
+        )
+
+        audio_bytes = self.provider.generate_speech(
+            narration.narration,
+        )
+
+        output_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        output_path.write_bytes(audio_bytes)
+
+        logger.info(
+            "Saved narration to %s",
+            output_path,
+        )
+
+        return RenderedAudio(
+            scene_number=narration.scene_number,
+            title=narration.title,
+            narration=narration.narration,
+            voice=narration.voice,
+            duration_seconds=narration.duration_seconds,
+            audio_path=str(output_path),
+            sample_rate=24000,
+            channels=2,
+            format="mp3",
+            provider=self.provider.provider_name(),
+            status="rendered",
+        )

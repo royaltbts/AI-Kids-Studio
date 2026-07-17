@@ -1,7 +1,7 @@
 """
 Rendered Video Schema
 
-Represents the final rendered TinyVerse episode.
+Represents one rendered video clip.
 """
 
 from pydantic import BaseModel
@@ -9,8 +9,10 @@ from pydantic import BaseModel
 
 class RenderedVideo(BaseModel):
     """
-    Final rendered episode.
+    Represents one rendered video clip.
     """
+
+    scene_number: int
 
     title: str
 
@@ -18,12 +20,16 @@ class RenderedVideo(BaseModel):
 
     duration_seconds: int
 
-    resolution: str = "1920x1080"
+    width: int
 
-    fps: int = 30
+    height: int
+
+    fps: int
 
     format: str = "mp4"
 
-    provider: str = "mock"
+    codec: str = "h264"
+
+    provider: str = "ffmpeg"
 
     status: str = "rendered"

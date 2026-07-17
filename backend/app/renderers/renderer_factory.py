@@ -5,8 +5,10 @@ Creates configured renderer implementations.
 """
 
 from backend.app.core.settings import settings
+from backend.app.renderers.ffmpeg_video_renderer import FFmpegVideoRenderer
 from backend.app.renderers.mock_image_renderer import MockImageRenderer
 from backend.app.renderers.mock_music_renderer import MockMusicRenderer
+from backend.app.renderers.mock_video_renderer import MockVideoRenderer
 from backend.app.renderers.mock_voice_renderer import MockVoiceRenderer
 from backend.app.renderers.openai_image_renderer import OpenAIImageRenderer
 from backend.app.renderers.openai_voice_renderer import OpenAIVoiceRenderer
@@ -20,7 +22,7 @@ class RendererFactory:
     @staticmethod
     def image_renderer():
         """
-        Return the configured image renderer.
+        Return configured image renderer.
         """
 
         provider = settings.IMAGE_PROVIDER.lower()
@@ -36,7 +38,7 @@ class RendererFactory:
     @staticmethod
     def voice_renderer():
         """
-        Return the configured voice renderer.
+        Return configured voice renderer.
         """
 
         provider = settings.VOICE_PROVIDER.lower()
@@ -52,7 +54,32 @@ class RendererFactory:
     @staticmethod
     def music_renderer():
         """
-        Return the configured music renderer.
+        Return configured music renderer.
         """
 
-        return MockMusicRenderer()
+        provider = settings.MUSIC_PROVIDER.lower()
+
+        #
+        # Only Mock is available for now.
+        #
+
+        if provider == "mock":
+            return MockMusicRenderer()
+
+        raise ValueError(f"Unsupported music provider: {provider}")
+
+    @staticmethod
+    def video_renderer():
+        """
+        Return configured video renderer.
+        """
+
+        provider = settings.VIDEO_PROVIDER.lower()
+
+        if provider == "mock":
+            return MockVideoRenderer()
+
+        if provider == "ffmpeg":
+            return FFmpegVideoRenderer()
+
+        raise ValueError(f"Unsupported video provider: {provider}")

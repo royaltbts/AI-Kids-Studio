@@ -54,7 +54,7 @@ class Settings(BaseSettings):
     RESPONSES_DIR: str = "responses"
 
     # ==========================================================
-    # Rendering Defaults
+    # Rendering
     # ==========================================================
 
     DEFAULT_IMAGE_WIDTH: int = 1920
@@ -69,32 +69,8 @@ class Settings(BaseSettings):
 
     AI_PROVIDER: str = Field(
         default="mock",
-        description="LLM provider.",
+        description="LLM provider used by AI agents.",
     )
-
-    IMAGE_PROVIDER: str = Field(
-        default="mock",
-        description="Image provider.",
-    )
-
-    VOICE_PROVIDER: str = Field(
-        default="mock",
-        description="Voice provider.",
-    )
-
-    MUSIC_PROVIDER: str = Field(
-        default="mock",
-        description="Music provider.",
-    )
-
-    VIDEO_PROVIDER: str = Field(
-        default="mock",
-        description="Video provider.",
-    )
-
-    # ==========================================================
-    # OpenAI
-    # ==========================================================
 
     OPENAI_API_KEY: str = Field(
         default="",
@@ -103,31 +79,63 @@ class Settings(BaseSettings):
 
     OPENAI_MODEL: str = Field(
         default="gpt-4.1-mini",
-        description="OpenAI LLM model.",
+        description="OpenAI Chat Model.",
     )
-
-    OPENAI_IMAGE_MODEL: str = Field(
-        default="gpt-image-1",
-        description="OpenAI Image model.",
-    )
-
-    OPENAI_TTS_MODEL: str = Field(
-        default="gpt-4o-mini-tts",
-        description="OpenAI TTS model.",
-    )
-
-    OPENAI_TTS_VOICE: str = Field(
-        default="alloy",
-        description="OpenAI voice.",
-    )
-
-    # ==========================================================
-    # Future Providers
-    # ==========================================================
 
     ANTHROPIC_API_KEY: str = ""
 
     GEMINI_API_KEY: str = ""
+
+    # ==========================================================
+    # Image Providers
+    # ==========================================================
+
+    IMAGE_PROVIDER: str = Field(
+        default="mock",
+        description="Image provider implementation.",
+    )
+
+    OPENAI_IMAGE_MODEL: str = Field(
+        default="gpt-image-1",
+        description="OpenAI Image Model.",
+    )
+
+    # ==========================================================
+    # Voice Providers
+    # ==========================================================
+
+    VOICE_PROVIDER: str = Field(
+        default="mock",
+        description="Voice provider implementation.",
+    )
+
+    OPENAI_TTS_MODEL: str = Field(
+        default="gpt-4o-mini-tts",
+        description="OpenAI TTS Model.",
+    )
+
+    OPENAI_TTS_VOICE: str = Field(
+        default="alloy",
+        description="OpenAI Voice.",
+    )
+
+    # ==========================================================
+    # Music Providers
+    # ==========================================================
+
+    MUSIC_PROVIDER: str = Field(
+        default="mock",
+        description="Music provider implementation.",
+    )
+
+    # ==========================================================
+    # Video Providers
+    # ==========================================================
+
+    VIDEO_PROVIDER: str = Field(
+        default="mock",
+        description="Video provider implementation.",
+    )
 
 
 settings = Settings()
